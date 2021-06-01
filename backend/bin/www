@@ -1,0 +1,168 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+const app = require('../app');
+const debug = require('debug')('express:server');
+const http = require('http');
+const config = require('../utils/config');
+const axios = require('axios');
+
+// Socket.io connection
+const socketIo = require('socket.io');
+const { clear } = require('console');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(config.PORT || '80');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+/**
+ * 	Socket.io connection
+ */
+
+const io = socketIo(server);
+let interval;
+io.on('connection', (socket) => {
+	if (interval) {
+		clearInterval(interval);
+	}
+	getDataandEmit(socket);
+	interval = setInterval(() => getDataandEmit(socket), 10000);
+	socket.on('disconnect', () => {
+		clearInterval(interval);
+	});
+});
+
+const getDataandEmit = async (socket) => {
+	try {
+		const res = await axios.get(
+			// 'https://makai-test.herokuapp.com/api/overview'
+			`${config.BACKEND_URI}/api/overview`
+		);
+		socket.emit('getOverviewData', res.data);
+	} catch (err) {
+		console.log(err.message);
+	}
+};
+
+let intervalMobile;
+io.on('connection', (socket) => {
+	if (intervalMobile) {
+		clearInterval(intervalMobile);
+	}
+	getDataandEmitMobile(socket);
+	intervalMobile = setInterval(() => getDataandEmitMobile(socket), 10000);
+	socket.on('disconnect', () => {
+		clearInterval(intervalMobile);
+	});
+});
+
+const getDataandEmitMobile = async (socket) => {
+	try {
+		const res = await axios.get(
+			// 'https://makai-test.herokuapp.com/api/overviewMobile'
+			`${config.BACKEND_URI}/api/overviewMobile`
+		);
+		socket.emit('getOverviewDataMobile', res.data);
+	} catch (err) {
+		console.log(err.message);
+	}
+};
+
+let intervalComments;
+io.on('connection', (socket) => {
+	if (intervalComments) {
+		clearInterval(intervalComments);
+	}
+	getCommentsandEmit(socket);
+	intervalComments = setInterval(() => getCommentsandEmit(socket), 10000);
+	socket.on('disconnect', () => {
+		clearInterval(intervalComments);
+	});
+});
+
+const getCommentsandEmit = async (socket) => {
+	try {
+		const res = await axios.get(
+			// 'https://makai-test.herokuapp.com/api/comments'
+			`${config.BACKEND_URI}/api/comments`
+		);
+		socket.emit('getComments', res.data);
+	} catch (err) {
+		console.log(err.message);
+	}
+};
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+	var port = parseInt(val, 10);
+
+	if (isNaN(port)) {
+		// named pipe
+		return val;
+	}
+
+	if (port >= 0) {
+		// port number
+		return port;
+	}
+
+	return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+	if (error.syscall !== 'listen') {
+		throw error;
+	}
+
+	var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+
+	// handle specific listen errors with friendly messages
+	switch (error.code) {
+		case 'EACCES':
+			console.error(bind + ' requires elevated privileges');
+			process.exit(1);
+			break;
+		case 'EADDRINUSE':
+			console.error(bind + ' is already in use');
+			process.exit(1);
+			break;
+		default:
+			throw error;
+	}
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+	var addr = server.address();
+	var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+	debug('Listening on ' + bind);
+}

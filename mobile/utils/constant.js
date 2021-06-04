@@ -7,4 +7,6 @@ export const USER_TYPES = {
 	USER: "user",
 };
 
+export const BASEURL = "https://1fe03b0d5210.ngrok.io/api/";
+
 export const STORAGE_USER_DETAILS_KEY = "userDetails";

@@ -7,6 +7,7 @@ const { adminSaltRound } = require('../config/keys');
 const User = require('../models/User');
 const mongoose = require('mongoose');
 
+const loginAuth = require('../middleware/loginAuth');
 const multer = require('multer');
 const path = require('path');
 //set storage engine
@@ -22,7 +23,7 @@ const storage = multer.diskStorage({
 
 //check file type
 const fileFilter = (req, file, cb) => {
-	if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+	if (['image/jpeg', 'image/jpg', 'image/png'].includes(file.mimetype)) {
 		cb(null, true);
 	} else {
 		cb(new Error('file type must be jpeg or png'), false);
@@ -58,7 +59,7 @@ router.post('/profile/:userID', async (req, res) => {
 // @Route   PUT api/user/update-password/:userID
 // @desc    Update user password
 // @access  User
-router.put('/update-password/:userID', async (req, res) => {
+router.put('/update-password/:userID', loginAuth, async (req, res) => {
 	try {
 		const { userID } = req.params;
 		const { password } = req.body;

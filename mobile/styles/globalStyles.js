@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
-import { COLORS } from '../utils/constant';
-import { vh, vw } from '../utils/viewport';
+import { COLORS } from "../utils/constant";
+import { vh, vw } from "../utils/viewport";
 
 const globalStyles = StyleSheet.create({
 	container: {
@@ -22,6 +22,11 @@ const globalStyles = StyleSheet.create({
 	homeContainer: {
 		height: "100%",
 		marginHorizontal: "5%",
+	},
+	modalContainer: {
+		marginTop: "5%",
+		marginHorizontal: "5%",
+		alignItems: "center",
 	},
 });
 

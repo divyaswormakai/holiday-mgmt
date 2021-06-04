@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 
 //check file type
 const fileFilter = (req, file, cb) => {
-	if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+	if (['image/jpeg', 'image/jpg', 'image/png'].includes(file.mimetype)) {
 		cb(null, true);
 	} else {
 		cb(new Error('file type must be jpeg or png'), false);
@@ -64,7 +64,9 @@ router.post('/admin', loginAuth, async (req, res) => {
 
 		const token = await jwt.sign(tokenDetails, secret);
 
-		res.status(200).json({ token, username: tokenDetails.username, id:tokenDetails.id });
+		res
+			.status(200)
+			.json({ token, username: tokenDetails.username, id: tokenDetails.id });
 	} catch (err) {
 		res.status(400).json({ error: err.message });
 	}
@@ -98,7 +100,9 @@ router.post('/user', loginAuth, async (req, res) => {
 
 		const token = await jwt.sign(tokenDetails, secret);
 
-		res.status(200).json({ token, username: tokenDetails.username,id:tokenDetails.id });
+		res
+			.status(200)
+			.json({ token, username: tokenDetails.username, id: tokenDetails.id });
 	} catch (err) {
 		res.status(400).json({ error: err.message });
 	}
@@ -112,6 +116,10 @@ router.post('/new-user', upload.any(), async (req, res) => {
 		const profilePicture = req.files ? req.files[0].path : null;
 		const { userID } = req.params;
 		const { username, password, email, fullName } = req.body;
+
+		if (password.length < 6) {
+			throw new Error('Password length should not be le');
+		}
 
 		const hashedPassword = await bcrypt.hash(password, adminSaltRound);
 

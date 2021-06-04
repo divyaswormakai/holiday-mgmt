@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Modal, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from "react";
+import { Modal, Text, TouchableOpacity, View } from "react-native";
 
-import { vh } from '../../utils/viewport';
-import UserEditProfileModal from './UserEditProfileModal';
+import { vh } from "../../utils/viewport";
+import UserEditProfileModal from "./UserEditProfileModal";
 
 const UserTopBar = ({ navigation }) => {
 	const [showModal, setShowModal] = useState(false);
@@ -26,6 +26,7 @@ const UserTopBar = ({ navigation }) => {
 				<UserEditProfileModal
 					showModal={showModal}
 					setShowModal={setShowModal}
+					navigation={navigation}
 				/>
 			</Modal>
 

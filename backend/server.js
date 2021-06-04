@@ -36,7 +36,7 @@ app.set('view engine', 'jade');
 app.use(express.urlencoded({ extended: false }));
 
 // Apply the routes
-app.use('/api/images', express.static(path.join(`${__dirname}/uploads`)));
+app.use('/api/uploads', express.static(path.join(`${__dirname}/uploads`)));
 app.use('/api/login', LoginRoute);
 app.use('/api/user', UserRoute);
 app.use('/api/admin', AdminRoute);

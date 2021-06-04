@@ -1,4 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = "http://70eb77805172.ngrok.io/api/";
+import { BASEURL } from './constant';
+
+axios.defaults.baseURL = BASEURL;
 export default axios;

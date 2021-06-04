@@ -115,6 +115,7 @@ const Register = ({ navigation }) => {
 					style={globalStyles.textInput}
 					placeholder="Username"
 					textContentType="username"
+					autoCapitalize="none"
 				/>
 				<TextInput
 					value={email}
@@ -122,6 +123,7 @@ const Register = ({ navigation }) => {
 					style={globalStyles.textInput}
 					placeholder="Email-address"
 					textContentType="emailAddress"
+					keyboardType="email-address"
 				/>
 				<TextInput
 					value={fullName}

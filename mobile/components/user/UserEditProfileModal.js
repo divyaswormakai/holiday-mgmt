@@ -17,39 +17,17 @@ import { BASEURL, STORAGE_USER_DETAILS_KEY } from "../../utils/constant";
 import globalStyles from "../../styles/globalStyles";
 import { vw } from "../../utils/viewport";
 
-const UserEditProfileModal = ({ showModal, setShowModal, navigation }) => {
+const UserEditProfileModal = ({
+	navigation,
+	profileDetails,
+	setProfileDetails,
+}) => {
 	const [isInPasswordEditMode, setIsInPasswordEditMode] = useState(false);
 	const [isInPhotoEditMode, setisInPhotoEditMode] = useState();
-	const [profileDetails, setProfileDetails] = useState({});
-	const [profileDetailsLoaded, setProfileDetailsLoaded] = useState(false);
+	const [profileDetailsLoaded, setProfileDetailsLoaded] = useState(true);
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [image, setImage] = useState(null);
-	useEffect(() => {
-		getUserProfileDetails();
-	}, []);
-
-	const getUserProfileDetails = async () => {
-		try {
-			let userDetails = await AsyncStorage.getItem(STORAGE_USER_DETAILS_KEY);
-			userDetails = JSON.parse(userDetails);
-			const result = await axios.post(`user/profile/${userDetails.id}`);
-			if (result.status !== 200) {
-				throw new Error(result);
-			}
-			await setProfileDetails({
-				...result.data,
-				profilePicture: BASEURL + result.data.profilePicture.replace("\\", "/"),
-			});
-			await setProfileDetailsLoaded(true);
-		} catch (err) {
-			console.log(err.message);
-			ToastAndroid.show(
-				err?.response?.data?.error || err.message,
-				ToastAndroid.SHORT
-			);
-		}
-	};
 
 	const pickImage = async () => {
 		try {

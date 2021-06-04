@@ -4,7 +4,7 @@ import { Modal, Text, TouchableOpacity, View } from "react-native";
 import { vh } from "../../utils/viewport";
 import UserEditProfileModal from "./UserEditProfileModal";
 
-const UserTopBar = ({ navigation }) => {
+const UserTopBar = ({ navigation, profileDetails, setProfileDetails }) => {
 	const [showModal, setShowModal] = useState(false);
 	return (
 		<View
@@ -24,9 +24,9 @@ const UserTopBar = ({ navigation }) => {
 				}}
 			>
 				<UserEditProfileModal
-					showModal={showModal}
-					setShowModal={setShowModal}
 					navigation={navigation}
+					profileDetails={profileDetails}
+					setProfileDetails={setProfileDetails}
 				/>
 			</Modal>
 

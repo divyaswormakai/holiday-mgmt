@@ -1,11 +1,20 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState } from 'react';
-import { Button, StatusBar, Switch, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useState } from "react";
+import {
+	Button,
+	StatusBar,
+	Switch,
+	Text,
+	TextInput,
+	ToastAndroid,
+	TouchableOpacity,
+	View,
+} from "react-native";
 
-import Title from '../components/Title';
-import globalStyles from '../styles/globalStyles';
-import axios from '../utils/axios';
-import { STORAGE_USER_DETAILS_KEY, USER_TYPES } from '../utils/constant';
+import Title from "../components/Title";
+import globalStyles from "../styles/globalStyles";
+import axios from "../utils/axios";
+import { STORAGE_USER_DETAILS_KEY, USER_TYPES } from "../utils/constant";
 
 const Login = ({ navigation }) => {
 	const [username, setUsername] = useState("");
@@ -48,6 +57,7 @@ const Login = ({ navigation }) => {
 					style={globalStyles.textInput}
 					placeholder="Username"
 					textContentType="username"
+					autoCapitalize="none"
 				/>
 				<TextInput
 					value={password}

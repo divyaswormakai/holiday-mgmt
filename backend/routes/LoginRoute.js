@@ -64,7 +64,7 @@ router.post('/admin', loginAuth, async (req, res) => {
 
 		const token = await jwt.sign(tokenDetails, secret);
 
-		res.status(200).json({ token, username: tokenDetails.username });
+		res.status(200).json({ token, username: tokenDetails.username, id:tokenDetails.id });
 	} catch (err) {
 		res.status(400).json({ error: err.message });
 	}
@@ -98,7 +98,7 @@ router.post('/user', loginAuth, async (req, res) => {
 
 		const token = await jwt.sign(tokenDetails, secret);
 
-		res.status(200).json({ token, username: tokenDetails.username });
+		res.status(200).json({ token, username: tokenDetails.username,id:tokenDetails.id });
 	} catch (err) {
 		res.status(400).json({ error: err.message });
 	}

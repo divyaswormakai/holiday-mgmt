@@ -1,23 +1,26 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useEffect, useState } from "react";
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as ImagePicker from 'expo-image-picker';
+import React, { useEffect, useState } from 'react';
 import {
-	Button,
-	Image,
-	ScrollView,
-	Text,
-	TextInput,
-	ToastAndroid,
-	TouchableOpacity,
-	View,
-} from "react-native";
-import * as ImagePicker from "expo-image-picker";
+    ActivityIndicator,
+    Image,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    ToastAndroid,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 
-import axios from "../../utils/axios";
-import { BASEURL, STORAGE_USER_DETAILS_KEY } from "../../utils/constant";
-import globalStyles from "../../styles/globalStyles";
-import { vw } from "../../utils/viewport";
+import globalStyles from '../../styles/globalStyles';
+import axios from '../../utils/axios';
+import { BASEURL, COLORS, STORAGE_USER_DETAILS_KEY } from '../../utils/constant';
+import { vh, vw } from '../../utils/viewport';
 
 const UserEditProfileModal = ({
+	setShowModal,
 	navigation,
 	profileDetails,
 	setProfileDetails,
@@ -41,6 +44,8 @@ const UserEditProfileModal = ({
 
 			if (!result.cancelled) {
 				setImage(result.uri);
+			} else {
+				setisInPhotoEditMode(false);
 			}
 		} catch (err) {
 			ToastAndroid.show(
@@ -48,6 +53,7 @@ const UserEditProfileModal = ({
 				ToastAndroid.SHORT
 			);
 		}
+
 		setProfileDetailsLoaded(true);
 	};
 
@@ -89,6 +95,11 @@ const UserEditProfileModal = ({
 		}
 		setisInPhotoEditMode(false);
 		setProfileDetailsLoaded(true);
+	};
+
+	const CancelPhotoUpdate = () => {
+		setImage(null);
+		setisInPhotoEditMode(false);
 	};
 
 	const ChangePassword = async () => {
@@ -142,53 +153,84 @@ const UserEditProfileModal = ({
 			showsVerticalScrollIndicator={false}
 			contentContainerStyle={globalStyles.modalContainer}
 		>
+			<View style={styles.profileModalContainer}>
+				<TouchableOpacity onPress={() => setShowModal((prev) => !prev)}>
+					<Ionicons
+						name="ios-chevron-back"
+						size={5 * vh}
+						color={COLORS.primary}
+					/>
+				</TouchableOpacity>
+				<Text style={globalStyles.primaryColorText}>USER PROFILE</Text>
+			</View>
+			<View style={globalStyles.editProfileDivider} />
 			{profileDetailsLoaded ? (
 				<>
-					<View>
-						<Image
-							source={{
-								uri: image || profileDetails.profilePicture,
-							}}
-							style={{ height: 20 * vw, width: 20 * vw }}
-						/>
-
-						{isInPhotoEditMode ? (
-							<>
-								<TouchableOpacity onPress={ChangeProfilePicture}>
-									<Text>Update my Photo</Text>
-								</TouchableOpacity>
-								<TouchableOpacity onPress={() => setisInPhotoEditMode(false)}>
-									<Text>Cancel</Text>
-								</TouchableOpacity>
-							</>
-						) : (
-							<TouchableOpacity onPress={pickImage}>
-								<Text>Select Image Icon</Text>
+					<View style={styles.profileModalContainerContent}>
+						<View>
+							<Image
+								source={{
+									uri: image || profileDetails.profilePicture,
+								}}
+								style={styles.imageStyle}
+							/>
+							<TouchableOpacity onPress={pickImage} style={styles.imageEditBtn}>
+								<MaterialCommunityIcons
+									name="pencil-box-multiple"
+									size={4 * vh}
+									color={COLORS.primary}
+								/>
 							</TouchableOpacity>
+						</View>
+
+						{isInPhotoEditMode && (
+							<View style={styles.imageEditModeView}>
+								<TouchableOpacity
+									onPress={ChangeProfilePicture}
+									style={styles.okBtn}
+								>
+									<Text style={{ color: "white" }}>Upload</Text>
+								</TouchableOpacity>
+								<TouchableOpacity
+									onPress={CancelPhotoUpdate}
+									style={styles.cancelBtn}
+								>
+									<Text style={{ color: COLORS.red }}>Cancel</Text>
+								</TouchableOpacity>
+							</View>
 						)}
 					</View>
-					<View>
-						<Text>Username:</Text>
-						<Text>{profileDetails.username}</Text>
+					<View style={styles.detailRow}>
+						<Text style={styles.detailRowTitle}>Username:</Text>
+						<Text style={globalStyles.primaryColorText}>
+							{profileDetails.username}
+						</Text>
 					</View>
-					<View>
-						<Text>Email:</Text>
-						<Text>{profileDetails.email}</Text>
+					<View style={styles.detailRow}>
+						<Text style={styles.detailRowTitle}>Email:</Text>
+						<Text style={globalStyles.primaryColorText}>
+							{profileDetails.email}
+						</Text>
 					</View>
-					<View>
-						<Text>Full Name:</Text>
-						<Text>{profileDetails.fullName}</Text>
+					<View style={styles.detailRow}>
+						<Text style={styles.detailRowTitle}>Full Name:</Text>
+						<Text style={globalStyles.primaryColorText}>
+							{profileDetails.fullName}
+						</Text>
 					</View>
-					<View>
-						<Text>Joined from:</Text>
-						<Text>{profileDetails.createdAt.slice(0, 10)}</Text>
+					<View style={styles.detailRow}>
+						<Text style={styles.detailRowTitle}>Joined from:</Text>
+						<Text style={globalStyles.primaryColorText}>
+							{profileDetails.createdAt.slice(0, 10)}
+						</Text>
 					</View>
 					{isInPasswordEditMode ? (
-						<>
+						<View style={styles.paddingBottomPWEdit}>
+							<Text style={styles.changePWText}>Change your password</Text>
 							<TextInput
 								value={password}
 								onChangeText={setPassword}
-								style={globalStyles.textInput}
+								style={styles.textInputEditPW}
 								placeholder="Password"
 								textContentType="password"
 								secureTextEntry={true}
@@ -196,32 +238,124 @@ const UserEditProfileModal = ({
 							<TextInput
 								value={confirmPassword}
 								onChangeText={setConfirmPassword}
-								style={globalStyles.textInput}
+								style={styles.textInputEditPW}
 								placeholder=" Confirm Password"
 								textContentType="password"
 								secureTextEntry={true}
 							/>
-							<Button title="Save Password" onPress={ChangePassword} />
-							<Button
-								title="Cancel"
-								onPress={() => setIsInPasswordEditMode((prev) => !prev)}
-							/>
-						</>
+							<View style={styles.imageEditModeView}>
+								<TouchableOpacity onPress={ChangePassword} style={styles.okBtn}>
+									<Text style={{ color: "white" }}>Update</Text>
+								</TouchableOpacity>
+								<TouchableOpacity
+									onPress={() => setIsInPasswordEditMode((prev) => !prev)}
+									style={styles.cancelBtn}
+								>
+									<Text style={{ color: COLORS.red }}>Cancel</Text>
+								</TouchableOpacity>
+							</View>
+						</View>
 					) : (
 						<>
-							<Button
-								title="Change Password"
+							<TouchableOpacity
+								style={styles.changePasswordBtn}
 								onPress={() => setIsInPasswordEditMode((prev) => !prev)}
-							/>
-							<Button title="Logout" onPress={Logout} />
+							>
+								<Text style={globalStyles.primaryColorText}>
+									Change Password
+								</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={globalStyles.redOutlineBtn}
+								onPress={Logout}
+							>
+								<Text style={globalStyles.dangerColorText}>Logout</Text>
+							</TouchableOpacity>
 						</>
 					)}
 				</>
 			) : (
-				<Text>Loading Profile...</Text>
+				<ActivityIndicator color={COLORS.primary} size="large" />
 			)}
 		</ScrollView>
 	);
 };
+
+const styles = StyleSheet.create({
+	profileModalContainer: { flexDirection: "row", alignItems: "center" },
+
+	profileModalContainerContent: {
+		alignSelf: "center",
+		marginTop: 2 * vh,
+		alignItems: "center",
+	},
+	imageStyle: {
+		height: 50 * vw,
+		width: 50 * vw,
+		alignSelf: "center",
+		borderRadius: 100,
+		position: "relative",
+		marginBottom: 5,
+	},
+	imageEditBtn: {
+		position: "absolute",
+		right: 0,
+		backgroundColor: "white",
+		padding: 5,
+		borderRadius: 50,
+	},
+	imageEditModeView: {
+		flexDirection: "row",
+		justifyContent: "space-evenly",
+		width: "100%",
+	},
+	okBtn: {
+		backgroundColor: COLORS.primary,
+		width: 40 * vw,
+		padding: "5%",
+		alignItems: "center",
+		borderColor: COLORS.primary,
+		borderWidth: 2,
+	},
+	cancelBtn: {
+		borderColor: COLORS.red,
+		borderWidth: 2,
+		width: 40 * vw,
+		padding: "5%",
+		alignItems: "center",
+	},
+	detailRow: {
+		marginVertical: 1 * vh,
+	},
+	detailRowTitle: {
+		fontSize: 5 * vw,
+	},
+	changePasswordBtn: {
+		width: "100%",
+		borderColor: COLORS.primary,
+		borderWidth: 2,
+		padding: "3%",
+		alignItems: "center",
+		marginVertical: 1 * vh,
+	},
+
+	textInputEditPW: {
+		height: 5 * vh,
+		borderColor: COLORS.primary,
+		borderWidth: 2,
+		width: "100%",
+		paddingHorizontal: 2 * vw,
+		marginVertical: 1 * vh,
+	},
+	changePWText: {
+		textAlign: "center",
+		color: COLORS.primary,
+		fontWeight: "bold",
+		fontFamily: "",
+	},
+	paddingBottomPWEdit: {
+		paddingBottom: 2 * vh,
+	},
+});
 
 export default UserEditProfileModal;

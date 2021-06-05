@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import React, { useEffect, useState } from "react";
 import {
@@ -9,11 +10,14 @@ import {
 	TouchableOpacity,
 	View,
 	ToastAndroid,
+	ActivityIndicator,
 } from "react-native";
 
 import Title from "../components/Title";
 import globalStyles from "../styles/globalStyles";
 import axios from "../utils/axios";
+import { COLORS } from "../utils/constant";
+import { vw, vh } from "../utils/viewport";
 
 const Register = ({ navigation }) => {
 	const [username, setUsername] = useState("");
@@ -102,13 +106,13 @@ const Register = ({ navigation }) => {
 		setIsLoading(false);
 	};
 	return isLoading ? (
-		<Text>Loading</Text>
+		<ActivityIndicator color={COLORS.primary} size="large" />
 	) : (
 		<View style={globalStyles.container}>
 			<StatusBar />
 
 			<Title />
-			<View>
+			<View style={{ alignItems: "center" }}>
 				<TextInput
 					value={username}
 					onChangeText={setUsername}
@@ -149,21 +153,56 @@ const Register = ({ navigation }) => {
 					secureTextEntry={true}
 				/>
 				<View>
-					<Button title="Pick an image from camera roll" onPress={pickImage} />
-					{image && (
-						<Image
-							source={{ uri: image }}
-							style={{ width: 200, height: 200 }}
-						/>
-					)}
-				</View>
-				<Button onPress={RegisterBtnPress} title="Register" />
-				<Text>
-					Already have an account,{" "}
-					<TouchableOpacity onPress={() => navigation.navigate("Login")}>
-						<Text>SIGN IN HERE.</Text>
+					<TouchableOpacity
+						onPress={pickImage}
+						style={{
+							borderColor: COLORS.primary,
+							width: 75 * vw,
+							alignItems: "center",
+							padding: 10,
+							borderWidth: 1,
+							marginBottom: 2 * vh,
+						}}
+					>
+						{image ? (
+							<Image
+								source={{ uri: image }}
+								style={{ width: 10 * vh, height: 10 * vh }}
+							/>
+						) : (
+							<Ionicons
+								name="person-circle-outline"
+								color={COLORS.primary}
+								size={8 * vh}
+							/>
+						)}
+						<Text style={{ color: COLORS.primary }}>Select your photo</Text>
 					</TouchableOpacity>
-				</Text>
+				</View>
+				<TouchableOpacity
+					onPress={RegisterBtnPress}
+					style={{
+						backgroundColor: COLORS.primary,
+						width: 75 * vw,
+						alignItems: "center",
+						padding: 10,
+						marginBottom: 2 * vh,
+					}}
+				>
+					<Text style={{ color: "white" }}>REGISTER</Text>
+				</TouchableOpacity>
+				<View
+					style={{
+						textAlign: "left",
+						flexDirection: "row",
+						width: 75 * vw,
+					}}
+				>
+					<Text>Already have an account, </Text>
+					<TouchableOpacity onPress={() => navigation.navigate("Login")}>
+						<Text style={{ color: COLORS.primary }}>SIGN IN HERE.</Text>
+					</TouchableOpacity>
+				</View>
 			</View>
 		</View>
 	);

@@ -6,6 +6,7 @@ const Admin = require('../models/Admin');
 const { adminSaltRound } = require('../config/keys');
 const User = require('../models/User');
 const { DECISIONS } = require('../config/constant');
+const SupportTicket = require('../models/SupportTicket');
 
 // @Route   POST api/admin/add-admin
 // @desc    Add a new admin
@@ -106,7 +107,7 @@ router.post('/list-user', async (req, res) => {
 router.post('/action-request/:reqID', async (req, res) => {
 	try {
 		const { reqID } = req.params;
-		const { decisionBy, decisionStatus } = req.body;
+		const { decisionBy, decisionStatus, rejectionReason } = req.body;
 
 		let request = await Holiday.findById(reqID)
 			.populate('employee')
@@ -135,6 +136,11 @@ router.post('/action-request/:reqID', async (req, res) => {
 				}
 			}
 		} else if (decisionStatus === DECISIONS.REJECTED) {
+			if (!rejectionReason || rejectionReason.length < 10) {
+				throw new Error(
+					'Please enter a valid rejection reason and not less than 10 letters.'
+				);
+			}
 			switch (request.decisionStatus) {
 				// If previous decision is also accepted
 				case DECISIONS.REJECTED: {
@@ -163,6 +169,7 @@ router.post('/action-request/:reqID', async (req, res) => {
 				decisionBy,
 				decisionStatus,
 				decisionDate: Date.now(),
+				rejectionReason: rejectionReason || null,
 			},
 			{ new: true }
 		)
@@ -190,6 +197,54 @@ router.post('/edit-user-holiday/:userID', async (req, res) => {
 			throw new Error('Could not find any user');
 		}
 		res.status(200).json(updatedUser.toJSON());
+	} catch (err) {
+		res.status(400).json({ error: err.message });
+	}
+});
+
+// @Route   POST api/admin/list-support-ticket
+// @desc    List support tickets
+// @access  User
+router.post('/list-support-ticket', async (req, res) => {
+	try {
+		const { userID } = req.params;
+
+		const supportTicketList = await SupportTicket.find()
+			.sort({ creationDate: -1 })
+			.populate('employee');
+
+		if (!supportTicketList) {
+			throw new Error('Could not fetch list of support tickets.');
+		}
+		res.status(200).json(supportTicketList.map((ticket) => ticket.toJSON()));
+	} catch (err) {
+		res.status(400).json({ error: err.message });
+	}
+});
+
+// @Route   POST api/admin/update-support-ticket/:ticketID
+// @desc    Update support tickets
+// @access  User
+router.put('/update-support-ticket/:ticketID', async (req, res) => {
+	try {
+		const { ticketID } = req.params;
+		const { status, adminResponse } = req.body;
+		if (!status || !adminResponse) {
+			throw new Error('Please enter valid reason and status for the ticket.');
+		}
+		const updatedTicket = await SupportTicket.findByIdAndUpdate(
+			ticketID,
+			{
+				status,
+				adminResponse,
+			},
+			{ new: true }
+		);
+
+		if (!updatedTicket) {
+			throw new Error('Could not fetch list of support tickets.');
+		}
+		res.status(200).json(updatedTicket.toJSON());
 	} catch (err) {
 		res.status(400).json({ error: err.message });
 	}

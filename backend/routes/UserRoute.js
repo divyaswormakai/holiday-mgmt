@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const Holiday = require('../models/Holiday');
+const SupportTicket = require('../models/SupportTicket');
 const Admin = require('../models/Admin');
 const { adminSaltRound } = require('../config/keys');
 const User = require('../models/User');
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const loginAuth = require('../middleware/loginAuth');
 const multer = require('multer');
@@ -117,6 +119,7 @@ router.post('/request-history/:userID', async (req, res) => {
 		const holidayRequests = await Holiday.find({
 			employee: userID,
 		})
+			.sort({ fromDate: -1 })
 			.populate('employee')
 			.populate('decisionBy');
 
@@ -135,8 +138,32 @@ router.post('/request-history/:userID', async (req, res) => {
 // @access  User
 router.post('/add-request', async (req, res) => {
 	try {
-		const { userID, year, department, fromDate, toDate, totalWorkingDays } =
-			req.body;
+		const {
+			userID,
+			year,
+			department,
+			fromDate,
+			toDate,
+			reason,
+			totalWorkingDays,
+		} = req.body;
+
+		const duration = moment.duration(moment(toDate).diff(moment(fromDate)));
+		console.log(duration.asDays());
+		if (duration.asDays() <= 0) {
+			throw new Error('Please enter valid duration date');
+		}
+		if (parseInt(totalWorkingDays, 10) > duration.asDays()) {
+			throw new Error(
+				'Working days should be equal or less than difference of holiday request date'
+			);
+		}
+
+		if (reason.length < 15) {
+			throw new Error(
+				'Please write a valid reason in words no less thatn 15 letters.'
+			);
+		}
 
 		const newHolidayRequest = new Holiday({
 			employee: userID,
@@ -145,11 +172,12 @@ router.post('/add-request', async (req, res) => {
 			fromDate,
 			toDate,
 			totalWorkingDays,
+			reason,
 		});
 		const savedHolidayRequest = await newHolidayRequest.save();
 
 		if (!savedHolidayRequest) {
-			throw new Error('Could not fetch request history');
+			throw new Error('Could not add new holiday request');
 		}
 		res.status(200).json(savedHolidayRequest.toJSON());
 	} catch (err) {
@@ -169,6 +197,56 @@ router.delete('/delete-request/:reqID', async (req, res) => {
 			throw new Error('Could not fetch request history');
 		}
 		res.status(200).json({ msg: 'Successfully deleted request.' });
+	} catch (err) {
+		res.status(400).json({ error: err.message });
+	}
+});
+
+// @Route   POST api/user/add-support-ticket
+// @desc    Add New Support ticket
+// @access  User
+router.post('/add-support-ticket', async (req, res) => {
+	try {
+		const { userID, reason } = req.body;
+
+		if (reason.length < 15) {
+			throw new Error(
+				'Please write a valid reason in words no less thatn 15 letters.'
+			);
+		}
+
+		const newSupportTicket = new SupportTicket({
+			employee: userID,
+			reason,
+		});
+		const savedSupportTicket = await newSupportTicket.save();
+
+		if (!savedSupportTicket) {
+			throw new Error('Could not register a support ticket.');
+		}
+		res.status(200).json(savedSupportTicket.toJSON());
+	} catch (err) {
+		res.status(400).json({ error: err.message });
+	}
+});
+
+// @Route   POST api/user/list-support-ticket/:userID
+// @desc    Add New Support ticket
+// @access  User
+router.post('/list-support-ticket/:userID', async (req, res) => {
+	try {
+		const { userID } = req.params;
+
+		const supportTicketList = await SupportTicket.find({
+			employee: userID,
+		})
+			.sort({ creationDate: -1 })
+			.populate('employee');
+
+		if (!supportTicketList) {
+			throw new Error('Could not register a support ticket.');
+		}
+		res.status(200).json(supportTicketList.map((ticket) => ticket.toJSON()));
 	} catch (err) {
 		res.status(400).json({ error: err.message });
 	}

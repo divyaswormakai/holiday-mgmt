@@ -33,6 +33,11 @@ const HolidaySchema = new Schema({
 		type: Date,
 		default: Date.now(),
 	},
+	reason: {
+		type: String,
+		required: true,
+		minlength: 15,
+	},
 	decisionStatus: {
 		type: String,
 		enum: Object.keys(DECISIONS),
@@ -46,6 +51,9 @@ const HolidaySchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'Admin',
 		default: null,
+	},
+	rejectionReason: {
+		type: String,
 	},
 });
 

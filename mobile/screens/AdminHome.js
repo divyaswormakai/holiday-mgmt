@@ -53,7 +53,7 @@ const AdminTabNavigator = () => {
 						}
 					},
 				})}
-				initialRouteName="Users"
+				initialRouteName="Requests"
 				lazy={true}
 			>
 				<Tab.Screen name="Dashboard" component={AdminDashboard} />

@@ -108,6 +108,7 @@ const globalStyles = StyleSheet.create({
 		backgroundColor: "black",
 		marginVertical: 1 * vh,
 	},
+	adminTitleText: { fontSize: 7 * vw, color: COLORS.primary },
 });
 
 export default globalStyles;

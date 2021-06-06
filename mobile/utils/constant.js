@@ -8,6 +8,6 @@ export const USER_TYPES = {
 	USER: "user",
 };
 
-export const BASEURL = "http://0d7781183199.ngrok.io/api/";
+export const BASEURL = "http://803df0b0edae.ngrok.io/api/";
 
 export const STORAGE_USER_DETAILS_KEY = "userDetails";

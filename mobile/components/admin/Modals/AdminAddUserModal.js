@@ -1,15 +1,17 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, StatusBar, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { Image, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
 
-import Title from '../components/Title';
-import globalStyles from '../styles/globalStyles';
-import axios from '../utils/axios';
-import { COLORS } from '../utils/constant';
-import { vh, vw } from '../utils/viewport';
+import globalStyles from '../../../styles/globalStyles';
+import axios from '../../../utils/axios';
+import { COLORS } from '../../../utils/constant';
+import { vh, vw } from '../../../utils/viewport';
 
-const Register = ({ navigation }) => {
+const AdminAddUserModal = ({
+	setShowAddUserModal,
+	updateAfterUserAddition,
+}) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
@@ -31,7 +33,6 @@ const Register = ({ navigation }) => {
 	}, []);
 
 	const pickImage = async () => {
-		console.log("Picking image");
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.All,
 			allowsEditing: true,
@@ -45,8 +46,6 @@ const Register = ({ navigation }) => {
 			setImage(result.uri);
 		}
 	};
-
-	// TODO: Simple validation for registration and api integration
 	const RegisterBtnPress = async () => {
 		try {
 			setIsLoading(true);
@@ -84,8 +83,8 @@ const Register = ({ navigation }) => {
 			if (result.status !== 200) {
 				throw new Error(result);
 			}
-			console.log("Register successful. Please login with the credentials");
-			navigation.navigate("Login");
+			updateAfterUserAddition(result.data);
+			setShowAddUserModal(false);
 		} catch (err) {
 			console.log(err.message);
 			ToastAndroid.show(
@@ -95,14 +94,20 @@ const Register = ({ navigation }) => {
 		}
 		setIsLoading(false);
 	};
-	return isLoading ? (
-		<ActivityIndicator color={COLORS.primary} size="large" />
-	) : (
+	return (
 		<View style={globalStyles.container}>
-			<StatusBar />
-
-			<Title />
 			<View style={{ alignItems: "center" }}>
+				<Text
+					style={{
+						fontSize: 5 * vw,
+						color: COLORS.primary,
+						fontFamily: "",
+						fontWeight: "bold",
+					}}
+				>
+					ADD A NEW USER
+				</Text>
+				<View style={globalStyles.editProfileDivider} />
 				<TextInput
 					value={username}
 					onChangeText={setUsername}
@@ -175,27 +180,22 @@ const Register = ({ navigation }) => {
 						backgroundColor: COLORS.primary,
 						width: 75 * vw,
 						alignItems: "center",
-						padding: 10,
+						padding: 2 * vh,
 						marginBottom: 2 * vh,
 					}}
+					disabled={isLoading}
 				>
-					<Text style={{ color: "white" }}>REGISTER</Text>
+					<Text style={{ color: "white" }}>ADD USER</Text>
 				</TouchableOpacity>
-				<View
-					style={{
-						textAlign: "left",
-						flexDirection: "row",
-						width: 75 * vw,
-					}}
+				<TouchableOpacity
+					style={{ ...globalStyles.redOutlineBtn, width: 75 * vw }}
+					onPress={() => setShowAddUserModal(false)}
 				>
-					<Text>Already have an account, </Text>
-					<TouchableOpacity onPress={() => navigation.navigate("Login")}>
-						<Text style={{ color: COLORS.primary }}>SIGN IN HERE.</Text>
-					</TouchableOpacity>
-				</View>
+					<Text style={globalStyles.dangerColorText}>Cancel</Text>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);
 };
 
-export default Register;
+export default AdminAddUserModal;

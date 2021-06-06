@@ -1,7 +1,6 @@
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     ActivityIndicator,
     Image,
@@ -14,16 +13,15 @@ import {
     View,
 } from 'react-native';
 
-import globalStyles from '../../styles/globalStyles';
-import axios from '../../utils/axios';
-import { BASEURL, COLORS, STORAGE_USER_DETAILS_KEY } from '../../utils/constant';
-import { vh, vw } from '../../utils/viewport';
+import globalStyles from '../../../styles/globalStyles';
+import axios from '../../../utils/axios';
+import { BASEURL, COLORS } from '../../../utils/constant';
+import { vh, vw } from '../../../utils/viewport';
 
-const UserEditProfileModal = ({
+const AdminEditUserModal = ({
 	setShowModal,
-	navigation,
 	profileDetails,
-	setProfileDetails,
+	updateAfterUserEdit,
 }) => {
 	const [isInPasswordEditMode, setIsInPasswordEditMode] = useState(false);
 	const [isInPhotoEditMode, setisInPhotoEditMode] = useState();
@@ -31,6 +29,14 @@ const UserEditProfileModal = ({
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [image, setImage] = useState(null);
+
+	const [totalHolidays, setTotalHolidays] = useState(
+		profileDetails.totalHolidays?.toString()
+	);
+	const [completedHolidays, setCompletedHolidays] = useState(
+		profileDetails.completedHolidays?.toString()
+	);
+	const [isInHolidayEditMode, setIsInHolidayEditMode] = useState(false);
 
 	const pickImage = async () => {
 		try {
@@ -81,10 +87,7 @@ const UserEditProfileModal = ({
 			if (result.status !== 200) {
 				throw new Error(result);
 			}
-			setProfileDetails({
-				...result.data,
-				profilePicture: BASEURL + result.data.profilePicture.replace("\\", "/"),
-			});
+			updateAfterUserEdit(result.data);
 			ToastAndroid.show("Photo updated successfully", ToastAndroid.SHORT);
 		} catch (err) {
 			console.log(err.response);
@@ -135,17 +138,35 @@ const UserEditProfileModal = ({
 		setProfileDetailsLoaded(true);
 	};
 
-	const Logout = async () => {
+	const UpdateUserHoliday = async () => {
 		try {
-			await AsyncStorage.removeItem(STORAGE_USER_DETAILS_KEY);
-			navigation.navigate("Login");
+			setProfileDetailsLoaded(false);
+			if (parseInt(totalHolidays, 10) < parseInt(completedHolidays, 10)) {
+				throw new Error(
+					"Error: Total holidays cannot be greated than the copmleted holidays."
+				);
+			}
+
+			const result = await axios.post(
+				`admin/edit-user-holiday/${profileDetails.id}`,
+				{ totalHolidays, completedHolidays }
+			);
+			if (result.status !== 200) {
+				throw new Error(result);
+			}
+			ToastAndroid.show(
+				"Holiday has been reset succesfully.",
+				ToastAndroid.SHORT
+			);
+			updateAfterUserEdit(result.data);
+			setIsInHolidayEditMode(false);
 		} catch (err) {
-			console.log(err.response);
 			ToastAndroid.show(
 				err?.response?.data?.error || err.message,
 				ToastAndroid.SHORT
 			);
 		}
+		setProfileDetailsLoaded(true);
 	};
 
 	return (
@@ -171,7 +192,12 @@ const UserEditProfileModal = ({
 							{/* TODO: Maybe add a profile icon here as well */}
 							<Image
 								source={{
-									uri: image || profileDetails.profilePicture,
+									uri:
+										image ||
+										`${BASEURL}${profileDetails?.profilePicture?.replace(
+											"\\",
+											"/"
+										)}`,
 								}}
 								style={styles.imageStyle}
 							/>
@@ -225,6 +251,94 @@ const UserEditProfileModal = ({
 							{profileDetails.createdAt.slice(0, 10)}
 						</Text>
 					</View>
+
+					{/* Changing number of holidays */}
+					{isInHolidayEditMode ? (
+						<View style={styles.paddingBottomPWEdit}>
+							<Text style={styles.changePWText}>Change your password</Text>
+							<TextInput
+								value={totalHolidays}
+								onChangeText={setTotalHolidays}
+								style={styles.textInputEditPW}
+								placeholder="Total Holidays"
+								keyboardType="number-pad"
+							/>
+							<TextInput
+								value={completedHolidays}
+								onChangeText={setCompletedHolidays}
+								style={styles.textInputEditPW}
+								placeholder=" Completed Holidays"
+								keyboardType="number-pad"
+							/>
+							<View style={styles.imageEditModeView}>
+								<TouchableOpacity
+									onPress={UpdateUserHoliday}
+									style={styles.okBtn}
+								>
+									<Text style={{ color: "white" }}>Update</Text>
+								</TouchableOpacity>
+								<TouchableOpacity
+									onPress={() => setIsInHolidayEditMode((prev) => !prev)}
+									style={styles.cancelBtn}
+								>
+									<Text style={{ color: COLORS.red }}>Cancel</Text>
+								</TouchableOpacity>
+							</View>
+						</View>
+					) : (
+						<>
+							<View
+								style={{
+									...styles.detailRow,
+									flexDirection: "row",
+									justifyContent: "space-around",
+								}}
+							>
+								<View
+									style={{
+										width: "50%",
+										alignItems: "center",
+									}}
+								>
+									<Text style={styles.detailRowTitle}>Total Holidays:</Text>
+									<Text
+										style={{
+											...globalStyles.primaryColorText,
+											fontSize: 5 * vw,
+										}}
+									>
+										{totalHolidays}
+									</Text>
+								</View>
+								<View
+									style={{
+										width: "50%",
+										alignItems: "center",
+									}}
+								>
+									<Text style={styles.detailRowTitle}>Used Holidays:</Text>
+									<Text
+										style={{
+											...globalStyles.primaryColorText,
+											fontSize: 5 * vw,
+										}}
+									>
+										{completedHolidays}
+									</Text>
+								</View>
+							</View>
+							<TouchableOpacity
+								style={styles.changePasswordBtn}
+								onPress={() => setIsInHolidayEditMode((prev) => !prev)}
+							>
+								<Text style={globalStyles.primaryColorText}>
+									Edit User Holidays
+								</Text>
+							</TouchableOpacity>
+						</>
+					)}
+
+					{/* For changing password */}
 					{isInPasswordEditMode ? (
 						<View style={styles.paddingBottomPWEdit}>
 							<Text style={styles.changePWText}>Change your password</Text>
@@ -265,12 +379,6 @@ const UserEditProfileModal = ({
 								<Text style={globalStyles.primaryColorText}>
 									Change Password
 								</Text>
-							</TouchableOpacity>
-							<TouchableOpacity
-								style={globalStyles.redOutlineBtn}
-								onPress={Logout}
-							>
-								<Text style={globalStyles.dangerColorText}>Logout</Text>
 							</TouchableOpacity>
 						</>
 					)}
@@ -359,4 +467,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default UserEditProfileModal;
+export default AdminEditUserModal;

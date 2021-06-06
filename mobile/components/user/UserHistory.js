@@ -4,22 +4,8 @@ import { Animated, FlatList, Text, ToastAndroid, TouchableOpacity, View } from '
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 import axios from '../../utils/axios';
-import { COLORS } from '../../utils/constant';
+import { getBorderColor } from '../../utils/constant';
 import { vh, vw } from '../../utils/viewport';
-
-const getBorderColor = (decisionStatus) => {
-	switch (decisionStatus) {
-		case "REJECTED": {
-			return COLORS.red;
-		}
-		case "ACCEPTED": {
-			return COLORS.primary;
-		}
-		default: {
-			return COLORS.gray;
-		}
-	}
-};
 
 const SwipeableView = ({ item, deleteRequest }) => {
 	const rightSwap = (progress, dragX) => {

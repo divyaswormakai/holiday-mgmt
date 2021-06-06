@@ -8,6 +8,20 @@ export const USER_TYPES = {
 	USER: "user",
 };
 
-export const BASEURL = "http://803df0b0edae.ngrok.io/api/";
+export const BASEURL = "http://b1aac27cf22a.ngrok.io/api/";
 
 export const STORAGE_USER_DETAILS_KEY = "userDetails";
+
+export const getBorderColor = (decisionStatus) => {
+	switch (decisionStatus) {
+		case "REJECTED": {
+			return COLORS.red;
+		}
+		case "ACCEPTED": {
+			return COLORS.primary;
+		}
+		default: {
+			return COLORS.gray;
+		}
+	}
+};

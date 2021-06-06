@@ -7,7 +7,7 @@ import axios from '../../utils/axios';
 import { COLORS, STORAGE_USER_DETAILS_KEY } from '../../utils/constant';
 import { vw } from '../../utils/viewport';
 
-const AdminDashboard = () => {
+const AdminDashboard = ({ navigation }) => {
 	const [profileDetails, setProfileDetails] = useState(null);
 	const [isLoaded, setIsLoaded] = useState(false);
 	useEffect(() => {

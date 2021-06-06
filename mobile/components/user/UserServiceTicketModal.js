@@ -108,12 +108,12 @@ const UserServiceTicketModal = ({ setShowServiceModal, profileDetails }) => {
 							}}
 						>
 							<View style={{ flexDirection: "row" }}>
-								<Text>Created at:</Text>
+								<Text>Created At: </Text>
 								<Text>{item.creationDate.slice(0, 10)}</Text>
 							</View>
 
 							<View style={{ flexDirection: "row" }}>
-								<Text>Reason:</Text>
+								<Text>Reason: </Text>
 								<Text>{item.reason || ""}</Text>
 							</View>
 
@@ -143,7 +143,7 @@ const UserServiceTicketModal = ({ setShowServiceModal, profileDetails }) => {
 							{item.adminResponse && (
 								<View style={{ flexDirection: "row" }}>
 									<Text style={{ fontWeight: "bold", fontFamily: "" }}>
-										Rejection reason:{" "}
+										Comment:{" "}
 									</Text>
 									<Text>{item?.adminResponse || ""}</Text>
 								</View>

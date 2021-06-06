@@ -1,0 +1,580 @@
+{
+	"info": {
+		"_postman_id": "9529f9a3-f3ab-40c7-84a6-69cc5b3fb5af",
+		"name": "Hotel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Get List of Users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/list-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"list-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"mainadmin\",\r\n    \"password\": \"hashedPassword\",\r\n    \"email\": \"main@admin.com\",\r\n    \"fullName\": \"Main Admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/add-admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"add-admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Profile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/profile/60b6053b066b6f1ef85ccaeb",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"profile",
+								"60b6053b066b6f1ef85ccaeb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/list-admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"list-admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/list-request",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"list-request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit User Data",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"totalHolidays\": 30,\r\n    \"completedHolidays\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/edit-user-holiday/60b602a10c617014843c09cd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"edit-user-holiday",
+								"60b602a10c617014843c09cd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"decisionBy\": \"60b6053b066b6f1ef85ccaeb\",\r\n    \"decisionStatus\": \"REJECTED\",\r\n        \"rejectionReason\": \"This is test for rejection\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/action-request/60bb5b291b95f3453cb5173a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"action-request",
+								"60bb5b291b95f3453cb5173a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Support Ticket",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/admin/list-support-ticket",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"list-support-ticket"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Support Ticket",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"RESOLVED\",\r\n    \"adminResponse\": \"This is ok. The issue has been resolved\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/admin/update-support-ticket/60bb60bd554e4644486850bd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"admin",
+								"update-support-ticket",
+								"60bb60bd554e4644486850bd"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/user/profile/60b602a10c617014843c09cd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"user",
+								"profile",
+								"60b602a10c617014843c09cd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Password",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"hashedPassword\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://1fe03b0d5210.ngrok.io/api/user/update-password/60b602a10c617014843c09cd",
+							"protocol": "https",
+							"host": [
+								"1fe03b0d5210",
+								"ngrok",
+								"io"
+							],
+							"path": [
+								"api",
+								"user",
+								"update-password",
+								"60b602a10c617014843c09cd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile picture",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Divyaswor/Downloads/dIV.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/user/update-profile-photo/60b602a10c617014843c09cd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"user",
+								"update-profile-photo",
+								"60b602a10c617014843c09cd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userID\": \"60b602a10c617014843c09cd\",\r\n    \"year\": 2021,\r\n    \"department\": \"IT\",\r\n    \"fromDate\": \"2021-02-22\",\r\n    \"toDate\": \"2021-02-24\",\r\n    \"totalWorkingDays\": 2,\r\n    \"reason\": \"Reason to be generated here\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/user/add-request",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"user",
+								"add-request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request History",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/user/request-history/60b602a10c617014843c09cd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"user",
+								"request-history",
+								"60b602a10c617014843c09cd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Request",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/user/delete-request/60b67a0e4a448a46f8066bd0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"user",
+								"delete-request",
+								"60b67a0e4a448a46f8066bd0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Support Ticket",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userID\": \"60b602a10c617014843c09cd\",\r\n    \"reason\": \"Support ticket raised for one and only reason\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/user/add-support-ticket",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"user",
+								"add-support-ticket"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Support tickets",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/user/list-support-ticket/60b602a10c617014843c09cd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"user",
+								"list-support-ticket",
+								"60b602a10c617014843c09cd"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Public",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "makai123451",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "hashedPassword",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "makaidivyaswo22r1@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "fullName",
+									"value": "Divyaswor Makai Shrestha",
+									"type": "text"
+								},
+								{
+									"key": "phot",
+									"type": "file",
+									"src": "/C:/Users/Divyaswor/Downloads/161365148_825712094713836_7730062489593075021_n.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/login/new-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"login",
+								"new-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"mainadmin\",\r\n    \"password\": \"hashedPassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/login/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"login",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"makai123\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/login/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"login",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

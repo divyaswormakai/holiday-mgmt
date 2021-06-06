@@ -15,7 +15,9 @@ const storage = multer.diskStorage({
 	filename: function (req, file, cb) {
 		cb(
 			null,
-			req.params.userID + '-' + Date.now() + path.extname(file.originalname)
+			`profile-photo-${Date.now()}-${Math.ceil(
+				Math.random() * 10000
+			)}${path.extname(file.originalname)}`
 		);
 	},
 });
@@ -113,8 +115,7 @@ router.post('/user', loginAuth, async (req, res) => {
 // @access  Public
 router.post('/new-user', upload.any(), async (req, res) => {
 	try {
-		const profilePicture = req.files ? req.files[0].path : null;
-		const { userID } = req.params;
+		const profilePicture = req.files.length > 0 ? req.files[0].path : null;
 		const { username, password, email, fullName } = req.body;
 
 		if (password.length < 6) {

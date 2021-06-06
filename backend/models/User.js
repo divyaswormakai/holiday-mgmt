@@ -28,6 +28,7 @@ const UserSchema = new Schema({
 	},
 	profilePicture: {
 		type: String,
+		defaul: null,
 	},
 	totalHolidays: {
 		type: Number,

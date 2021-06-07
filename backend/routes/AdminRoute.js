@@ -225,12 +225,12 @@ router.post('/list-support-ticket', async (req, res) => {
 // @Route   POST api/admin/update-support-ticket/:ticketID
 // @desc    Update support tickets
 // @access  User
-router.put('/update-support-ticket/:ticketID', async (req, res) => {
+router.post('/update-support-ticket/:ticketID', async (req, res) => {
 	try {
 		const { ticketID } = req.params;
 		const { status, adminResponse } = req.body;
-		if (!status || !adminResponse) {
-			throw new Error('Please enter valid reason and status for the ticket.');
+		if (!status) {
+			throw new Error('Please enter valid  status for the ticket.');
 		}
 		const updatedTicket = await SupportTicket.findByIdAndUpdate(
 			ticketID,
@@ -239,7 +239,7 @@ router.put('/update-support-ticket/:ticketID', async (req, res) => {
 				adminResponse,
 			},
 			{ new: true }
-		);
+		).populate('employee');
 
 		if (!updatedTicket) {
 			throw new Error('Could not fetch list of support tickets.');
@@ -249,6 +249,5 @@ router.put('/update-support-ticket/:ticketID', async (req, res) => {
 		res.status(400).json({ error: err.message });
 	}
 });
-
 
 module.exports = router;

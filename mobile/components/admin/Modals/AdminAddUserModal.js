@@ -191,7 +191,7 @@ const AdminAddUserModal = ({
 					style={{ ...globalStyles.redOutlineBtn, width: 75 * vw }}
 					onPress={() => setShowAddUserModal(false)}
 				>
-					<Text style={globalStyles.dangerColorText}>Cancel</Text>
+					<Text style={globalStyles.dangerColorText}>CANCEL</Text>
 				</TouchableOpacity>
 			</View>
 		</View>

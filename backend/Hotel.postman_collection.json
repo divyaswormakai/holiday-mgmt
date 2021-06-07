@@ -209,7 +209,7 @@
 				{
 					"name": "Edit Support Ticket",
 					"request": {
-						"method": "PUT",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -473,7 +473,7 @@
 							"formdata": [
 								{
 									"key": "username",
-									"value": "makai123451",
+									"value": "makai12343",
 									"type": "text"
 								},
 								{
@@ -483,12 +483,12 @@
 								},
 								{
 									"key": "email",
-									"value": "makaidivyaswo22r1@gmail.com",
+									"value": "makaidivyaswo22rs1@gmail.com",
 									"type": "text"
 								},
 								{
 									"key": "fullName",
-									"value": "Divyaswor Makai Shrestha",
+									"value": "Test user",
 									"type": "text"
 								},
 								{

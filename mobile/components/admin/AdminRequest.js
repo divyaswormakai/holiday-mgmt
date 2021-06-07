@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { FlatList, Modal, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
 
 import globalStyles from '../../styles/globalStyles';
 import axios from '../../utils/axios';
 import { COLORS, getBorderColor } from '../../utils/constant';
 import { vh, vw } from '../../utils/viewport';
+import AdminRequestFormModal from './Modals/AdminRequestFormModal';
 
 const AdminRequests = () => {
 	const [showStatus, setShowStatus] = useState("PENDING");
 	const [requestList, setRequestList] = useState([]);
 	const [toShowRequestList, setToShowRequestList] = useState([]);
+	const [selectedRequest, setSelectedRequest] = useState({});
+	const [showModal, setShowModal] = useState(false);
 
 	useEffect(() => {
 		GetRequestList();
@@ -44,8 +47,35 @@ const AdminRequests = () => {
 		}
 	};
 
+	const UpdateRequestList = (updatedRequest) => {
+		const updatedList = requestList.map((request) => {
+			if (request.id === updatedRequest.id) {
+				return updatedRequest;
+			}
+			return request;
+		});
+		setShowStatus("PENDING");
+		setRequestList([...updatedList]);
+		setToShowRequestList(
+			updatedList.filter((request) => request.decisionStatus === "PENDING")
+		);
+	};
+
 	return (
 		<View style={globalStyles.modalContainer}>
+			<Modal
+				animationType="slide"
+				visible={showModal}
+				onRequestClose={() => {
+					setShowModal(!showModal);
+				}}
+			>
+				<AdminRequestFormModal
+					setShowModal={setShowModal}
+					requestDetails={selectedRequest}
+					UpdateRequestList={UpdateRequestList}
+				/>
+			</Modal>
 			<Text style={globalStyles.adminTitleText}>Holiday Requests</Text>
 
 			<View style={globalStyles.divider} />
@@ -80,15 +110,19 @@ const AdminRequests = () => {
 					data={toShowRequestList}
 					keyExtractor={(item) => `Admin-Requestlist-${item.id}`}
 					renderItem={({ item }) => (
-						<View
+						<TouchableOpacity
 							style={{
 								padding: "5%",
-								// height: 65 * vh,
 								borderWidth: 2,
 								borderColor: getBorderColor(item.decisionStatus),
 								marginVertical: 1 * vh,
 								flexDirection: "column",
 							}}
+							onPress={() => {
+								setSelectedRequest(item);
+								setShowModal(true);
+							}}
+							activeOpacity={0.75}
 						>
 							<View style={{ flexDirection: "row" }}>
 								<Text
@@ -139,7 +173,7 @@ const AdminRequests = () => {
 									<Text>{item?.rejectionReason || ""}</Text>
 								</View>
 							)}
-						</View>
+						</TouchableOpacity>
 					)}
 				/>
 			</View>

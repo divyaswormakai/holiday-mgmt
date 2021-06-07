@@ -103,6 +103,7 @@ const globalStyles = StyleSheet.create({
 		color: COLORS.red,
 	},
 	primaryText: { color: COLORS.primary, fontSize: 3.5 * vw },
+	dangerText: { color: COLORS.red, fontSize: 3.5 * vw },
 	editProfileDivider: {
 		height: 2,
 		backgroundColor: "black",

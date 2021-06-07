@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { FlatList, Modal, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
 
 import globalStyles from '../../styles/globalStyles';
 import axios from '../../utils/axios';
 import { COLORS } from '../../utils/constant';
 import { vh, vw } from '../../utils/viewport';
+import AdminSupportTicketFormModal from './Modals/AdminSupportTicketFormModal';
 
 const AdminSupportTicket = () => {
 	const [showStatus, setShowStatus] = useState("PENDING");
 	const [ticketList, setTicketList] = useState([]);
 	const [toShowTicketList, setToShowTicketList] = useState([]);
+
+	const [selectedTicket, setSelectedTicket] = useState({});
+	const [showModal, setShowModal] = useState(false);
 
 	useEffect(() => {
 		GetTicketList();
@@ -42,8 +46,36 @@ const AdminSupportTicket = () => {
 		}
 	};
 
+	const UpdateTicketList = (updatedTicket) => {
+		const updatedList = ticketList.map((ticket) => {
+			if (ticket.id === updatedTicket.id) {
+				return updatedTicket;
+			}
+			return ticket;
+		});
+		setShowStatus("PENDING");
+
+		setTicketList([...updatedList]);
+		setToShowTicketList(
+			updatedList.filter((ticket) => ticket.status === "PENDING")
+		);
+	};
+
 	return (
 		<View style={globalStyles.modalContainer}>
+			<Modal
+				animationType="slide"
+				visible={showModal}
+				onRequestClose={() => {
+					setShowModal(!showModal);
+				}}
+			>
+				<AdminSupportTicketFormModal
+					setShowModal={setShowModal}
+					ticketDetails={selectedTicket}
+					UpdateTicketList={UpdateTicketList}
+				/>
+			</Modal>
 			<Text style={globalStyles.adminTitleText}>Support Tickets</Text>
 
 			<View style={globalStyles.divider} />
@@ -78,7 +110,7 @@ const AdminSupportTicket = () => {
 					data={toShowTicketList}
 					keyExtractor={(item) => `Admin-Requestlist-${item.id}`}
 					renderItem={({ item }) => (
-						<View
+						<TouchableOpacity
 							style={{
 								padding: "5%",
 								borderWidth: 2,
@@ -86,6 +118,11 @@ const AdminSupportTicket = () => {
 									item.status === "PENDING" ? COLORS.gray : COLORS.primary,
 								marginVertical: 1 * vh,
 							}}
+							onPress={() => {
+								setSelectedTicket(item);
+								setShowModal(true);
+							}}
+							activeOpacity={0.5}
 						>
 							<View style={{ flexDirection: "row" }}>
 								<Text>Created At: </Text>
@@ -120,15 +157,15 @@ const AdminSupportTicket = () => {
 								</Text>
 							</View>
 
-							{item.adminResponse && (
+							{item.adminResponse ? (
 								<View style={{ flexDirection: "row" }}>
 									<Text style={{ fontWeight: "bold", fontFamily: "" }}>
 										Comment:{" "}
 									</Text>
 									<Text>{item?.adminResponse || ""}</Text>
 								</View>
-							)}
-						</View>
+							) : null}
+						</TouchableOpacity>
 					)}
 				/>
 			</View>

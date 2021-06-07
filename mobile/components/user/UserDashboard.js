@@ -19,7 +19,7 @@ const UserDashboard = ({ profileDetails }) => {
 				</Text>
 			</View>
 			<View style={styles.redTextContainer}>
-				<Text style={styles.textContainerTitle}>Remaining: </Text>
+				<Text style={styles.textContainerTitle}>Used: </Text>
 				<Text style={styles.redTextContainerText}>
 					{profileDetails.completedHolidays}
 				</Text>

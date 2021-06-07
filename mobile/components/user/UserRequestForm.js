@@ -176,7 +176,7 @@ const UserRequestForm = ({ setShowModal, profileDetails }) => {
 						style={globalStyles.activeBtn}
 						activeOpacity={0.5}
 						onPress={SubmitHolidayRequest}
-						disabled={!loading}
+						disabled={loading}
 					>
 						<Text style={globalStyles.activeBtnTxt}>REQUEST</Text>
 					</TouchableOpacity>

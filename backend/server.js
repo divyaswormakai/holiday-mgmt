@@ -1,15 +1,12 @@
 // Import the packages
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const path = require('path');
-const morgan = require('morgan');
+const express = require('express'); //Framework for node application
+const mongoose = require('mongoose'); // MongoDB connection, query
+const bodyParser = require('body-parser'); // PArse the body into json values
+const cors = require('cors'); //Cross Origin Resource Sharing: Let applications besides the current application access the APIs
+const path = require('path'); // Parse the directory, current directory for the application
+const morgan = require('morgan'); // Logging the requests and their status
 
-require('dotenv').config();
-
-// Cron job import
-const cron = require('node-cron');
+require('dotenv').config(); //Enabling the accesss to .env file
 
 // Create an instance for express
 const app = express();
@@ -19,10 +16,6 @@ const LoginRoute = require('./routes/LoginRoute');
 const AdminRoute = require('./routes/AdminRoute');
 const UserRoute = require('./routes/UserRoute');
 const ErrorRoute = require('./routes/ErrorRoute');
-
-// Middlewares
-const adminAuth = require('./middleware/adminAuth');
-const userAuth = require('./middleware/userAuth');
 
 app.use(
 	morgan(':method :url :status :res[content-length] - :response-time ms')
@@ -41,9 +34,6 @@ app.use('/api/login', LoginRoute);
 app.use('/api/user', UserRoute);
 app.use('/api/admin', AdminRoute);
 app.use('/*', ErrorRoute);
-// app.use('*', (req, res) =>
-// 	res.sendFile(path.join(`${__dirname}/build`, 'index.html'))
-// );
 
 // Get the mongoURI for database
 const db = require('./config/keys').mongoURI;

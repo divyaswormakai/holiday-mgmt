@@ -109,6 +109,7 @@ router.post('/action-request/:reqID', async (req, res) => {
 		const { reqID } = req.params;
 		const { decisionBy, decisionStatus, rejectionReason } = req.body;
 
+		// Get the holiday request for the request id
 		let request = await Holiday.findById(reqID)
 			.populate('employee')
 			.populate('decisionBy');
@@ -245,6 +246,27 @@ router.post('/update-support-ticket/:ticketID', async (req, res) => {
 			throw new Error('Could not fetch list of support tickets.');
 		}
 		res.status(200).json(updatedTicket.toJSON());
+	} catch (err) {
+		res.status(400).json({ error: err.message });
+	}
+});
+
+// @Route   DELETE api/admin/delete-user/:userID
+// @desc    Update support tickets
+// @access  User
+router.delete('/delete-user/:userID', async (req, res) => {
+	try {
+		const { userID } = req.params;
+		if (!userID) {
+			throw new Error('Please enter valid user.');
+		}
+		console.log('ASDF');
+		await Holiday.deleteMany({ employee: userID });
+		await SupportTicket.deleteMany({ employee: userID });
+		await User.findByIdAndDelete(userID);
+		await res.status(200).json({
+			msg: 'DONE',
+		});
 	} catch (err) {
 		res.status(400).json({ error: err.message });
 	}

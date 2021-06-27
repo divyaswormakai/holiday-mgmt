@@ -6,7 +6,7 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/', async (req, res) => {
-	res.status(400).json({ error: "It doesn't exist" });
+	res.status(400).json({ error: "This route doesn't exist" });
 });
 
 module.exports = router;

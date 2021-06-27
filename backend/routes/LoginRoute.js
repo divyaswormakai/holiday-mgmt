@@ -43,14 +43,15 @@ const upload = multer({
 // @access  Public
 router.post('/admin', loginAuth, async (req, res) => {
 	try {
-		//  TODO: Profile picture
+		// Get the username and password fromt he request body
 		const { username, password } = req.body;
-
+		// Find the admin with the given username
 		let admin = await Admin.findOne({ username });
 
 		if (!admin) {
 			throw new Error('Could not find admin data.');
 		}
+		// Check if the password matches the saved one
 		const isPasswordCorrect = await bcrypt.compare(password, admin.password);
 		admin = admin.toJSON();
 
@@ -79,7 +80,6 @@ router.post('/admin', loginAuth, async (req, res) => {
 // @access  Public
 router.post('/user', loginAuth, async (req, res) => {
 	try {
-		//  TODO: Profile picture
 		const { username, password } = req.body;
 
 		let user = await User.findOne({ username });

@@ -45,10 +45,7 @@ io.on('connection', (socket) => {
 
 const getDataandEmit = async (socket) => {
 	try {
-		const res = await axios.get(
-			// 'https://makai-test.herokuapp.com/api/overview'
-			`${config.BACKEND_URI}/api/overview`
-		);
+		const res = await axios.get(`${config.BACKEND_URI}/api/overview`);
 		socket.emit('getOverviewData', res.data);
 	} catch (err) {
 		console.log(err.message);
@@ -69,10 +66,7 @@ io.on('connection', (socket) => {
 
 const getDataandEmitMobile = async (socket) => {
 	try {
-		const res = await axios.get(
-			// 'https://makai-test.herokuapp.com/api/overviewMobile'
-			`${config.BACKEND_URI}/api/overviewMobile`
-		);
+		const res = await axios.get(`${config.BACKEND_URI}/api/overviewMobile`);
 		socket.emit('getOverviewDataMobile', res.data);
 	} catch (err) {
 		console.log(err.message);
@@ -93,10 +87,7 @@ io.on('connection', (socket) => {
 
 const getCommentsandEmit = async (socket) => {
 	try {
-		const res = await axios.get(
-			// 'https://makai-test.herokuapp.com/api/comments'
-			`${config.BACKEND_URI}/api/comments`
-		);
+		const res = await axios.get(`${config.BACKEND_URI}/api/comments`);
 		socket.emit('getComments', res.data);
 	} catch (err) {
 		console.log(err.message);

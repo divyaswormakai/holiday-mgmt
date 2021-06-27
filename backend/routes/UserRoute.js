@@ -3,10 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const Holiday = require('../models/Holiday');
 const SupportTicket = require('../models/SupportTicket');
-const Admin = require('../models/Admin');
 const { adminSaltRound } = require('../config/keys');
 const User = require('../models/User');
-const mongoose = require('mongoose');
 const moment = require('moment');
 
 const loginAuth = require('../middleware/loginAuth');
@@ -39,12 +37,11 @@ const upload = multer({
 	fileFilter: fileFilter,
 });
 
-// @Route   POST api/user/:userID
+// @Route   POST api/user/profile/:userID
 // @desc    Get User data
 // @access  User
 router.post('/profile/:userID', async (req, res) => {
 	try {
-		//  TODO: Profile picture
 		const { userID } = req.params;
 
 		const user = await User.findById(userID);

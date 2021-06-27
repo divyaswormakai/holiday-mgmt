@@ -125,12 +125,16 @@ const AdminSupportTicket = () => {
 							activeOpacity={0.5}
 						>
 							<View style={{ flexDirection: "row" }}>
-								<Text>Created At: </Text>
+								<Text style={{ fontWeight: "bold", fontFamily: "" }}>
+									Created At:{" "}
+								</Text>
 								<Text>{item.creationDate.slice(0, 10)}</Text>
 							</View>
 
-							<View style={{ flexDirection: "row" }}>
-								<Text>Reason: </Text>
+							<View style={{ flexDirection: "row", width: "80%" }}>
+								<Text style={{ fontWeight: "bold", fontFamily: "" }}>
+									Reason:{" "}
+								</Text>
 								<Text>{item.reason || ""}</Text>
 							</View>
 
@@ -158,7 +162,7 @@ const AdminSupportTicket = () => {
 							</View>
 
 							{item.adminResponse ? (
-								<View style={{ flexDirection: "row" }}>
+								<View style={{ flexDirection: "column" }}>
 									<Text style={{ fontWeight: "bold", fontFamily: "" }}>
 										Comment:{" "}
 									</Text>

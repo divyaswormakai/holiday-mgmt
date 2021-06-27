@@ -107,17 +107,33 @@ const UserServiceTicketModal = ({ setShowServiceModal, profileDetails }) => {
 								marginVertical: 1 * vh,
 							}}
 						>
-							<View style={{ flexDirection: "row" }}>
-								<Text>Created At: </Text>
+							<View style={{ flexDirection: "row", flex: 1, flexWrap: "wrap" }}>
+								<Text
+									style={{
+										fontWeight: "bold",
+										fontFamily: "",
+										fontSize: 4 * vw,
+									}}
+								>
+									Created At:{" "}
+								</Text>
 								<Text>{item.creationDate.slice(0, 10)}</Text>
 							</View>
 
-							<View style={{ flexDirection: "row" }}>
-								<Text>Reason: </Text>
+							<View style={{ flexDirection: "row", flex: 1, flexWrap: "wrap" }}>
+								<Text
+									style={{
+										fontWeight: "bold",
+										fontFamily: "",
+										fontSize: 4 * vw,
+									}}
+								>
+									Reason:{" "}
+								</Text>
 								<Text>{item.reason || ""}</Text>
 							</View>
 
-							<View style={{ flexDirection: "row" }}>
+							<View style={{ flexDirection: "row", flex: 1, flexWrap: "wrap" }}>
 								<Text
 									style={{
 										fontWeight: "bold",
@@ -141,7 +157,9 @@ const UserServiceTicketModal = ({ setShowServiceModal, profileDetails }) => {
 							</View>
 
 							{item.adminResponse && (
-								<View style={{ flexDirection: "row" }}>
+								<View
+									style={{ flexDirection: "row", flex: 1, flexWrap: "wrap" }}
+								>
 									<Text style={{ fontWeight: "bold", fontFamily: "" }}>
 										Comment:{" "}
 									</Text>

@@ -129,7 +129,7 @@ const AdminRequests = () => {
 									style={{
 										fontWeight: "bold",
 										fontFamily: "",
-										fontSize: 3 * vw,
+										fontSize: 4 * vw,
 									}}
 								>
 									Date:{" "}
@@ -138,7 +138,7 @@ const AdminRequests = () => {
 									{item.fromDate.slice(0, 10)} - {item.toDate.slice(0, 10)}
 								</Text>
 							</View>
-							<View style={{ flexDirection: "row" }}>
+							<View style={{ flexDirection: "row", width: "80%" }}>
 								<Text style={{ fontWeight: "bold", fontFamily: "" }}>
 									Reason:{" "}
 								</Text>
@@ -166,7 +166,7 @@ const AdminRequests = () => {
 								</Text>
 							</View>
 							{item.rejectionReason && (
-								<View style={{ flexDirection: "row" }}>
+								<View style={{ flexDirection: "column" }}>
 									<Text style={{ fontWeight: "bold", fontFamily: "" }}>
 										Rejection reason:{" "}
 									</Text>

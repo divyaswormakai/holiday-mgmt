@@ -181,18 +181,21 @@ const Register = ({ navigation }) => {
 				>
 					<Text style={{ color: "white" }}>REGISTER</Text>
 				</TouchableOpacity>
-				<View
+
+				<TouchableOpacity
+					onPress={() => navigation.navigate("Login")}
 					style={{
-						textAlign: "left",
-						flexDirection: "row",
+						borderWidth: 1,
+						borderStyle: "solid",
+						borderColor: COLORS.primary,
 						width: 75 * vw,
+						alignItems: "center",
+						padding: 10,
+						marginBottom: 2 * vh,
 					}}
 				>
-					<Text>Already have an account, </Text>
-					<TouchableOpacity onPress={() => navigation.navigate("Login")}>
-						<Text style={{ color: COLORS.primary }}>SIGN IN HERE.</Text>
-					</TouchableOpacity>
-				</View>
+					<Text style={{ color: COLORS.primary }}>SIGN IN</Text>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);

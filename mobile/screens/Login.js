@@ -1,27 +1,12 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useState } from "react";
-import {
-	ActivityIndicator,
-	Button,
-	StatusBar,
-	Switch,
-	Text,
-	TextInput,
-	ToastAndroid,
-	TouchableOpacity,
-	View,
-} from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from 'react';
+import { ActivityIndicator, StatusBar, Switch, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
 
-import Title from "../components/Title";
-import globalStyles from "../styles/globalStyles";
-import axios from "../utils/axios";
-import {
-	COLORS,
-	STORAGE_USER_DETAILS_KEY,
-	USER_TYPES,
-} from "../utils/constant";
-
-import { vw, vh } from "../utils/viewport";
+import Title from '../components/Title';
+import globalStyles from '../styles/globalStyles';
+import axios from '../utils/axios';
+import { COLORS, STORAGE_USER_DETAILS_KEY, USER_TYPES } from '../utils/constant';
+import { vh, vw } from '../utils/viewport';
 
 const Login = ({ navigation }) => {
 	const [username, setUsername] = useState("");
@@ -107,18 +92,21 @@ const Login = ({ navigation }) => {
 				>
 					<Text style={{ color: "white" }}>LOGIN</Text>
 				</TouchableOpacity>
-				<View
+
+				<TouchableOpacity
+					onPress={() => navigation.navigate("Register")}
 					style={{
-						textAlign: "left",
-						flexDirection: "row",
+						borderWidth: 1,
+						borderStyle: "solid",
+						borderColor: COLORS.primary,
 						width: 75 * vw,
+						alignItems: "center",
+						padding: 10,
+						marginBottom: 2 * vh,
 					}}
 				>
-					<Text>If you don't have an account, </Text>
-					<TouchableOpacity onPress={() => navigation.navigate("Register")}>
-						<Text style={{ color: COLORS.primary }}>SIGN UP HERE.</Text>
-					</TouchableOpacity>
-				</View>
+					<Text style={{ color: COLORS.primary }}>SIGN UP</Text>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);

@@ -3,6 +3,7 @@ import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
 import {
     ActivityIndicator,
+    Alert,
     Image,
     ScrollView,
     StyleSheet,
@@ -22,6 +23,7 @@ const AdminEditUserModal = ({
 	setShowModal,
 	profileDetails,
 	updateAfterUserEdit,
+	updateAfterUserDelete,
 }) => {
 	const [isInPasswordEditMode, setIsInPasswordEditMode] = useState(false);
 	const [isInPhotoEditMode, setisInPhotoEditMode] = useState();
@@ -167,6 +169,45 @@ const AdminEditUserModal = ({
 			);
 		}
 		setProfileDetailsLoaded(true);
+	};
+
+	// complete the delete part here TODO
+	const DeleteUser = async () => {
+		try {
+			setProfileDetailsLoaded(false);
+
+			const result = await axios.delete(
+				`admin/delete-user/${profileDetails.id}`
+			);
+			if (result.status !== 200) {
+				throw new Error(result);
+			}
+			ToastAndroid.show("User deleted succesfully.", ToastAndroid.SHORT);
+			updateAfterUserDelete(profileDetails.id);
+			setIsInHolidayEditMode(false);
+			setShowModal(false);
+		} catch (err) {
+			ToastAndroid.show(
+				err?.response?.data?.error || err.message,
+				ToastAndroid.SHORT
+			);
+		}
+		setProfileDetailsLoaded(true);
+	};
+
+	const createConfirmAlert = () => {
+		Alert.alert(
+			"Do you want to delete this user?",
+			"If you delete this user, then every record related to him will be erased. Are you sure you want to continue?",
+			[
+				{
+					text: "Cancel",
+					style: "cancel",
+				},
+				{ text: "Ok", onPress: () => DeleteUser() },
+			],
+			{ cancelable: true }
+		);
 	};
 
 	return (
@@ -382,6 +423,12 @@ const AdminEditUserModal = ({
 							</TouchableOpacity>
 						</>
 					)}
+					<TouchableOpacity
+						style={styles.deleteUserBtn}
+						onPress={createConfirmAlert}
+					>
+						<Text style={globalStyles.dangerColorText}>Delete User</Text>
+					</TouchableOpacity>
 				</>
 			) : (
 				<ActivityIndicator color={COLORS.primary} size="large" />
@@ -464,6 +511,14 @@ const styles = StyleSheet.create({
 	},
 	paddingBottomPWEdit: {
 		paddingBottom: 2 * vh,
+	},
+	deleteUserBtn: {
+		width: "100%",
+		borderColor: COLORS.red,
+		borderWidth: 2,
+		padding: "3%",
+		alignItems: "center",
+		marginVertical: 1 * vh,
 	},
 });
 

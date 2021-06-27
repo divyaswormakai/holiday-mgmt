@@ -65,6 +65,14 @@ const AdminUsers = ({ navigation }) => {
 		setActiveUserList(newList);
 	};
 
+	const updateAfterUserDelete = (deleteUserID) => {
+		setSearchTerm("");
+		const newList = userList.filter((user) => user.id !== deleteUserID);
+		setUserList(newList);
+		setActiveUserList(newList);
+		setShowEditUserModal(false);
+	};
+
 	return (
 		<View style={globalStyles.modalContainer}>
 			<Modal
@@ -90,6 +98,7 @@ const AdminUsers = ({ navigation }) => {
 					setShowModal={setShowUserEditModal}
 					profileDetails={selectedUser}
 					updateAfterUserEdit={updateAfterUserEdit}
+					updateAfterUserDelete={updateAfterUserDelete}
 				/>
 			</Modal>
 			<Text style={globalStyles.adminTitleText}>Company Users</Text>
@@ -135,7 +144,7 @@ const AdminUsers = ({ navigation }) => {
 				<Text style={globalStyles.primaryColorText}>Add New User</Text>
 			</TouchableOpacity>
 
-			<View style={{ marginBottom: 32 * vh }}>
+			<View style={{ marginBottom: 35 * vh }}>
 				<FlatList
 					data={activeUserList}
 					keyExtractor={(item) => item.id}
@@ -172,12 +181,22 @@ const AdminUsers = ({ navigation }) => {
 									size={10 * vh}
 								/>
 							)}
-							<View style={{ paddingLeft: "5%" }}>
+							<View
+								style={{
+									paddingLeft: "5%",
+									width: "75%",
+								}}
+							>
 								<Text style={{ fontFamily: "", fontWeight: "bold" }}>
 									Name:{" "}
 									<Text style={{ fontWeight: "normal" }}>{item.fullName}</Text>
 								</Text>
-								<Text style={{ fontFamily: "", fontWeight: "bold" }}>
+								<Text
+									style={{
+										fontFamily: "",
+										fontWeight: "bold",
+									}}
+								>
 									Email:{" "}
 									<Text style={{ fontWeight: "normal" }}>{item.email}</Text>
 								</Text>

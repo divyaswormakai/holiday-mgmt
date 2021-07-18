@@ -1,4 +1,4 @@
-import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Image, Modal, Text, TouchableOpacity, View } from 'react-native';
 
@@ -10,6 +10,7 @@ import UserServiceTicketModal from './UserServiceTicketModal';
 const UserTopBar = ({ navigation, profileDetails, setProfileDetails }) => {
 	const [showModal, setShowModal] = useState(false);
 	const [showServiceModal, setShowServiceModal] = useState(false);
+
 	return (
 		<View
 			style={{
@@ -85,12 +86,17 @@ const UserTopBar = ({ navigation, profileDetails, setProfileDetails }) => {
 			<View style={{ flexDirection: "row" }}>
 				<TouchableOpacity
 					onPress={() => setShowServiceModal((prevState) => !prevState)}
+					style={{
+						alignItems: "center",
+						displa: "flex",
+						justifyContent: "center",
+						borderWidth: 1,
+						borderStyle: "solid",
+						borderColor: COLORS.primary,
+						padding: 3,
+					}}
 				>
-					<AntDesign
-						name="customerservice"
-						size={3.5 * vh}
-						color={COLORS.primary}
-					/>
+					<Text style={{ color: COLORS.primary }}>Contact Us</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					onPress={() => setShowModal((prevState) => !prevState)}

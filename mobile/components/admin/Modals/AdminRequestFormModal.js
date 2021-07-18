@@ -2,9 +2,8 @@ import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
 import moment from 'moment';
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Image, ScrollView, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
-import { useEffect } from 'react/cjs/react.development';
 
 import globalStyles from '../../../styles/globalStyles';
 import axios from '../../../utils/axios';

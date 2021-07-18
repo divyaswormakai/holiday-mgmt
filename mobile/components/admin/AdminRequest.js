@@ -122,7 +122,7 @@ const AdminRequests = () => {
 								setSelectedRequest(item);
 								setShowModal(true);
 							}}
-							activeOpacity={0.75}
+							activeOpacity={0.3}
 						>
 							<View style={{ flexDirection: "row" }}>
 								<Text

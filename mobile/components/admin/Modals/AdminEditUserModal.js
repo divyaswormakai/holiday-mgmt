@@ -296,7 +296,7 @@ const AdminEditUserModal = ({
 					{/* Changing number of holidays */}
 					{isInHolidayEditMode ? (
 						<View style={styles.paddingBottomPWEdit}>
-							<Text style={styles.changePWText}>Change your password</Text>
+							<Text style={styles.changePWText}>Edit User Holidays</Text>
 							<TextInput
 								value={totalHolidays}
 								onChangeText={setTotalHolidays}

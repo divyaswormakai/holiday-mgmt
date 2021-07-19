@@ -1,12 +1,25 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState } from 'react';
-import { ActivityIndicator, StatusBar, Switch, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useState } from "react";
+import {
+	ActivityIndicator,
+	StatusBar,
+	Switch,
+	Text,
+	TextInput,
+	ToastAndroid,
+	TouchableOpacity,
+	View,
+} from "react-native";
 
-import Title from '../components/Title';
-import globalStyles from '../styles/globalStyles';
-import axios from '../utils/axios';
-import { COLORS, STORAGE_USER_DETAILS_KEY, USER_TYPES } from '../utils/constant';
-import { vh, vw } from '../utils/viewport';
+import Title from "../components/Title";
+import globalStyles from "../styles/globalStyles";
+import axios from "../utils/axios";
+import {
+	COLORS,
+	STORAGE_USER_DETAILS_KEY,
+	USER_TYPES,
+} from "../utils/constant";
+import { vh, vw } from "../utils/viewport";
 
 const Login = ({ navigation }) => {
 	const [username, setUsername] = useState("");
@@ -55,6 +68,7 @@ const Login = ({ navigation }) => {
 					placeholder="Username"
 					textContentType="username"
 					autoCapitalize="none"
+					testID="Login.usernameInput"
 				/>
 				<TextInput
 					value={password}
@@ -63,6 +77,7 @@ const Login = ({ navigation }) => {
 					placeholder="Password"
 					textContentType="password"
 					secureTextEntry={true}
+					testID="Login.passwordInput"
 				/>
 				<View
 					style={{
@@ -89,6 +104,7 @@ const Login = ({ navigation }) => {
 						padding: 10,
 						marginBottom: 2 * vh,
 					}}
+					testID="LoginButton"
 				>
 					<Text style={{ color: "white" }}>LOGIN</Text>
 				</TouchableOpacity>

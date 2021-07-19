@@ -1,13 +1,22 @@
-import { Ionicons } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, StatusBar, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { Ionicons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
+import React, { useEffect, useState } from "react";
+import {
+	ActivityIndicator,
+	Image,
+	StatusBar,
+	Text,
+	TextInput,
+	ToastAndroid,
+	TouchableOpacity,
+	View,
+} from "react-native";
 
-import Title from '../components/Title';
-import globalStyles from '../styles/globalStyles';
-import axios from '../utils/axios';
-import { COLORS } from '../utils/constant';
-import { vh, vw } from '../utils/viewport';
+import Title from "../components/Title";
+import globalStyles from "../styles/globalStyles";
+import axios from "../utils/axios";
+import { COLORS } from "../utils/constant";
+import { vh, vw } from "../utils/viewport";
 
 const Register = ({ navigation }) => {
 	const [username, setUsername] = useState("");

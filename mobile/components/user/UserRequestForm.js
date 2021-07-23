@@ -1,14 +1,21 @@
-import DateTimePicker from '@react-native-community/datetimepicker';
-import moment from 'moment';
-import React, { useState } from 'react';
-import { ScrollView, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import DateTimePicker from "@react-native-community/datetimepicker";
+import moment from "moment";
+import React, { useState } from "react";
+import {
+	ScrollView,
+	Text,
+	TextInput,
+	ToastAndroid,
+	TouchableOpacity,
+	View,
+} from "react-native";
+import { fireEvent, render, waitFor } from "@testing-library/react-native";
+import globalStyles from "../../styles/globalStyles";
+import axios from "../../utils/axios";
+import { COLORS } from "../../utils/constant";
+import { vh, vw } from "../../utils/viewport";
 
-import globalStyles from '../../styles/globalStyles';
-import axios from '../../utils/axios';
-import { COLORS } from '../../utils/constant';
-import { vh, vw } from '../../utils/viewport';
-
-const UserRequestForm = ({ setShowModal, profileDetails }) => {
+const UserRequestForm = ({ setShowModal, profileDetails, ...props }) => {
 	const [year, setYear] = useState(moment().format("YYYY"));
 	const [department, setDepartment] = useState("");
 	const [totalDays, setTotalDays] = useState("");
@@ -108,16 +115,19 @@ const UserRequestForm = ({ setShowModal, profileDetails }) => {
 						value={profileDetails.fullName}
 						style={globalStyles.textInputDisabled}
 						editable={false}
+						testID="username"
 					/>
 
 					<Text style={globalStyles.primaryText}>Year</Text>
 					<TextInput
+						{...props}
 						value={year}
 						onChangeText={setYear}
 						style={globalStyles.textInput}
 						placeholder="Year"
 						autoCapitalize="none"
 						keyboardType="numeric"
+						testID="form.Year"
 					/>
 
 					<Text style={globalStyles.primaryText}>Department</Text>

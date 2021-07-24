@@ -26,7 +26,6 @@ const UserServiceTicketModal = ({ setShowServiceModal, profileDetails }) => {
 			}
 			setRequestList([...result.data]);
 		} catch (err) {
-			console.log(err.response);
 			ToastAndroid.show(
 				err?.response?.data?.error || err.message,
 				ToastAndroid.SHORT
@@ -51,7 +50,6 @@ const UserServiceTicketModal = ({ setShowServiceModal, profileDetails }) => {
 			await GetUserRequestList();
 			setShowAddRequestModal(false);
 		} catch (err) {
-			console.log(err.response.data.error);
 			ToastAndroid.show(
 				err?.response?.data?.error || err.message,
 				ToastAndroid.SHORT

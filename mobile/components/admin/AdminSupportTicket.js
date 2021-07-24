@@ -38,7 +38,6 @@ const AdminSupportTicket = () => {
 				result.data.reverse().filter((request) => request.status === "PENDING")
 			);
 		} catch (err) {
-			console.log(err.response);
 			ToastAndroid.show(
 				err?.response?.data?.error || err.message,
 				ToastAndroid.SHORT

@@ -24,7 +24,6 @@ const AdminDashboard = ({ navigation }) => {
 			}
 			setProfileDetails({ ...result.data });
 		} catch (err) {
-			console.log(err.response);
 			ToastAndroid.show(
 				err?.response?.data?.error || err.message,
 				ToastAndroid.SHORT
@@ -38,7 +37,6 @@ const AdminDashboard = ({ navigation }) => {
 			await AsyncStorage.removeItem(STORAGE_USER_DETAILS_KEY);
 			navigation.navigate("Login");
 		} catch (err) {
-			console.log(err.response);
 			ToastAndroid.show(
 				err?.response?.data?.error || err.message,
 				ToastAndroid.SHORT

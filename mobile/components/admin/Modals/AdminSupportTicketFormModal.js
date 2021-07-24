@@ -45,7 +45,6 @@ const AdminSupportTicketFormModal = ({
 				ToastAndroid.SHORT
 			);
 		} catch (err) {
-			console.log(err.message);
 			ToastAndroid.show(
 				err?.response?.data?.error || err?.message || "Error",
 				ToastAndroid.SHORT

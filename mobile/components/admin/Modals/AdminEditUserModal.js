@@ -92,7 +92,6 @@ const AdminEditUserModal = ({
 			updateAfterUserEdit(result.data);
 			ToastAndroid.show("Photo updated successfully", ToastAndroid.SHORT);
 		} catch (err) {
-			console.log(err.response);
 			ToastAndroid.show(
 				err?.response?.data?.error || err.message,
 				ToastAndroid.SHORT

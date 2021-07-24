@@ -39,7 +39,6 @@ const AdminRequests = () => {
 					.filter((request) => request.decisionStatus === "PENDING")
 			);
 		} catch (err) {
-			console.log(err.response);
 			ToastAndroid.show(
 				err?.response?.data?.error || err.message,
 				ToastAndroid.SHORT

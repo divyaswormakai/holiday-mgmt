@@ -1,7 +1,8 @@
-import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
-import Login from "../Login";
-import UserRequestForm from "../../components/user/UserRequestForm";
+import { fireEvent, render } from '@testing-library/react-native';
+import React from 'react';
+
+import UserRequestForm from '../../components/user/UserRequestForm';
+import Login from '../Login';
 
 test("renders default elements", () => {
 	const { getAllByPlaceholderText, getByPlaceholderText } = render(<Login />);
@@ -28,8 +29,6 @@ it("shows invalid password error message", () => {
 	fireEvent.changeText(getByTestId("Login.passwordInput"), "wrong");
 	fireEvent.press(getByTestId("LoginButton"));
 });
-
-//register
 
 //holiday request form
 it("for normal naming conventions", async () => {

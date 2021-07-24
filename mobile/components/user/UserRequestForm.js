@@ -1,19 +1,12 @@
-import DateTimePicker from "@react-native-community/datetimepicker";
-import moment from "moment";
-import React, { useState } from "react";
-import {
-	ScrollView,
-	Text,
-	TextInput,
-	ToastAndroid,
-	TouchableOpacity,
-	View,
-} from "react-native";
-import { fireEvent, render, waitFor } from "@testing-library/react-native";
-import globalStyles from "../../styles/globalStyles";
-import axios from "../../utils/axios";
-import { COLORS } from "../../utils/constant";
-import { vh, vw } from "../../utils/viewport";
+import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
+import React, { useState } from 'react';
+import { ScrollView, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
+
+import globalStyles from '../../styles/globalStyles';
+import axios from '../../utils/axios';
+import { COLORS } from '../../utils/constant';
+import { vh, vw } from '../../utils/viewport';
 
 const UserRequestForm = ({ setShowModal, profileDetails, ...props }) => {
 	const [year, setYear] = useState(moment().format("YYYY"));
@@ -77,7 +70,6 @@ const UserRequestForm = ({ setShowModal, profileDetails, ...props }) => {
 			);
 			setShowModal(false);
 		} catch (err) {
-			console.log(err.response);
 			ToastAndroid.show(
 				err?.response?.data?.error || err.message,
 				ToastAndroid.SHORT

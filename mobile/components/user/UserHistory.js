@@ -142,7 +142,6 @@ const UserHistory = ({ userID }) => {
 			}
 			setRequestHistoryList([...result.data]);
 		} catch (err) {
-			console.log(err.message);
 			ToastAndroid.show(
 				err?.response?.data?.error || err?.message || "Error",
 				ToastAndroid.SHORT
@@ -152,7 +151,6 @@ const UserHistory = ({ userID }) => {
 
 	const deleteRequest = async (request) => {
 		try {
-			console.log(request.id);
 			const result = await axios.delete(`user/delete-request/${request.id}`);
 			if (result.status !== 200) {
 				throw new Error(result);
@@ -161,7 +159,6 @@ const UserHistory = ({ userID }) => {
 				requestHistoryList.filter((item) => item.id !== request.id)
 			);
 		} catch (err) {
-			console.log(err.response);
 			ToastAndroid.show(
 				err?.response?.data?.error || err?.message || "Error",
 				ToastAndroid.SHORT

@@ -1,22 +1,13 @@
-import { Ionicons } from "@expo/vector-icons";
-import * as ImagePicker from "expo-image-picker";
-import React, { useEffect, useState } from "react";
-import {
-	ActivityIndicator,
-	Image,
-	StatusBar,
-	Text,
-	TextInput,
-	ToastAndroid,
-	TouchableOpacity,
-	View,
-} from "react-native";
+import { Ionicons } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Image, StatusBar, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
 
-import Title from "../components/Title";
-import globalStyles from "../styles/globalStyles";
-import axios from "../utils/axios";
-import { COLORS } from "../utils/constant";
-import { vh, vw } from "../utils/viewport";
+import Title from '../components/Title';
+import globalStyles from '../styles/globalStyles';
+import axios from '../utils/axios';
+import { COLORS } from '../utils/constant';
+import { vh, vw } from '../utils/viewport';
 
 const Register = ({ navigation }) => {
 	const [username, setUsername] = useState("");
@@ -40,7 +31,6 @@ const Register = ({ navigation }) => {
 	}, []);
 
 	const pickImage = async () => {
-		console.log("Picking image");
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.All,
 			allowsEditing: true,
@@ -48,7 +38,6 @@ const Register = ({ navigation }) => {
 			quality: 1,
 		});
 
-		console.log(result);
 
 		if (!result.cancelled) {
 			setImage(result.uri);
@@ -93,10 +82,8 @@ const Register = ({ navigation }) => {
 			if (result.status !== 200) {
 				throw new Error(result);
 			}
-			console.log("Register successful. Please login with the credentials");
 			navigation.navigate("Login");
 		} catch (err) {
-			console.log(err.message);
 			ToastAndroid.show(
 				err?.response?.data?.error || err?.message || "Error",
 				ToastAndroid.SHORT

@@ -87,7 +87,6 @@ const UserEditProfileModal = ({
 			});
 			ToastAndroid.show("Photo updated successfully", ToastAndroid.SHORT);
 		} catch (err) {
-			console.log(err.response);
 			ToastAndroid.show(
 				err?.response?.data?.error || err.message,
 				ToastAndroid.SHORT
@@ -140,7 +139,6 @@ const UserEditProfileModal = ({
 			await AsyncStorage.removeItem(STORAGE_USER_DETAILS_KEY);
 			navigation.navigate("Login");
 		} catch (err) {
-			console.log(err.response);
 			ToastAndroid.show(
 				err?.response?.data?.error || err.message,
 				ToastAndroid.SHORT

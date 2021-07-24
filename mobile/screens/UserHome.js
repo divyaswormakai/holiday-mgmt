@@ -34,7 +34,6 @@ const UserHome = ({ navigation }) => {
 				profilePicture: BASEURL + result.data.profilePicture.replace("\\", "/"),
 			});
 		} catch (err) {
-			console.log(err.response);
 			ToastAndroid.show(
 				err?.response?.data?.error || err.message,
 				ToastAndroid.SHORT

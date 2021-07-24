@@ -42,7 +42,6 @@ const AdminUsers = ({ navigation }) => {
 			setUserList([...result.data]);
 			setActiveUserList([...result.data]);
 		} catch (err) {
-			console.log(err.response);
 			ToastAndroid.show(
 				err?.response?.data?.error || err.message,
 				ToastAndroid.SHORT

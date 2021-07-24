@@ -1,25 +1,12 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useState } from "react";
-import {
-	ActivityIndicator,
-	StatusBar,
-	Switch,
-	Text,
-	TextInput,
-	ToastAndroid,
-	TouchableOpacity,
-	View,
-} from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from 'react';
+import { ActivityIndicator, StatusBar, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-import Title from "../components/Title";
-import globalStyles from "../styles/globalStyles";
-import axios from "../utils/axios";
-import {
-	COLORS,
-	STORAGE_USER_DETAILS_KEY,
-	USER_TYPES,
-} from "../utils/constant";
-import { vh, vw } from "../utils/viewport";
+import Title from '../components/Title';
+import globalStyles from '../styles/globalStyles';
+import axios from '../utils/axios';
+import { COLORS, STORAGE_USER_DETAILS_KEY, USER_TYPES } from '../utils/constant';
+import { vh, vw } from '../utils/viewport';
 
 const Login = ({ navigation }) => {
 	const [username, setUsername] = useState("");
@@ -46,11 +33,10 @@ const Login = ({ navigation }) => {
 			const homePage = isAdmin ? "AdminHome" : "UserHome";
 			navigation.navigate(homePage);
 		} catch (err) {
-			console.log(err);
-			ToastAndroid.show(
-				`Error: ${err?.response?.data?.error}`,
-				ToastAndroid.SHORT
-			);
+			// ToastAndroid.show(
+			// 	`Error: ${err?.response?.data?.error}`,
+			// 	ToastAndroid.SHORT
+			// );
 		}
 		setIsLoading(false);
 	};

@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
 import moment from 'moment';
-import React, { useState ,useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
 
 import globalStyles from '../../../styles/globalStyles';
@@ -52,7 +52,6 @@ const AdminRequestFormModal = ({
 			setShowModal(false);
 			ToastAndroid.show("Decision saved successfully.", ToastAndroid.SHORT);
 		} catch (err) {
-			console.log(err.message);
 			ToastAndroid.show(
 				err?.response?.data?.error || err?.message || "Error",
 				ToastAndroid.SHORT

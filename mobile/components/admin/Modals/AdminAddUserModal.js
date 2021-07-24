@@ -40,8 +40,6 @@ const AdminAddUserModal = ({
 			quality: 1,
 		});
 
-		console.log(result);
-
 		if (!result.cancelled) {
 			setImage(result.uri);
 		}
@@ -86,7 +84,6 @@ const AdminAddUserModal = ({
 			updateAfterUserAddition(result.data);
 			setShowAddUserModal(false);
 		} catch (err) {
-			console.log(err.message);
 			ToastAndroid.show(
 				err?.response?.data?.error || err?.message || "Error",
 				ToastAndroid.SHORT

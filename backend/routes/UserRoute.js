@@ -147,10 +147,13 @@ router.post('/add-request', async (req, res) => {
 
 		const duration = moment.duration(moment(toDate).diff(moment(fromDate)));
 		console.log(duration.asDays());
-		if (duration.asDays() <= 0) {
+		if (duration.asDays() < 0) {
 			throw new Error('Please enter valid duration date');
 		}
-		if (parseInt(totalWorkingDays, 10) >= duration.asDays()) {
+		if (
+			parseInt(totalWorkingDays, 10) >=
+			parseInt(duration.asDays() + 1, 10) + 1
+		) {
 			throw new Error(
 				'Working days should be equal or less than difference of holiday request date'
 			);

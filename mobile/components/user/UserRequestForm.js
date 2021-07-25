@@ -36,10 +36,11 @@ const UserRequestForm = ({ setShowModal, profileDetails, ...props }) => {
 		try {
 			setIsLoading(true);
 			const duration = moment.duration(moment(toDate).diff(moment(fromDate)));
-			if (duration.asDays() <= 0) {
+
+			if (duration.asDays() < 0) {
 				throw new Error("Please enter valid duration date");
 			}
-			if (parseInt(totalDays, 10) >= duration.asDays()) {
+			if (parseInt(totalDays, 10) >= parseInt(duration.asDays() + 1, 10) + 1) {
 				throw new Error(
 					"Working days should be equal or less than difference of holiday request date"
 				);
@@ -50,6 +51,7 @@ const UserRequestForm = ({ setShowModal, profileDetails, ...props }) => {
 					"Please write a valid reason in words no less thatn 15 letters."
 				);
 			}
+
 			const body = {
 				userID: profileDetails.id,
 				year,

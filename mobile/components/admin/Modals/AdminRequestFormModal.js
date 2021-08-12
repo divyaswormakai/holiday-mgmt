@@ -14,6 +14,7 @@ const AdminRequestFormModal = ({
 	requestDetails,
 	setShowModal,
 	UpdateRequestList,
+	RefreshRequestList,
 }) => {
 	const [editable, setEditable] = useState(false);
 	const [decision, setDecision] = useState(requestDetails.decisionStatus);
@@ -51,6 +52,28 @@ const AdminRequestFormModal = ({
 			await UpdateRequestList(result.data);
 			setShowModal(false);
 			ToastAndroid.show("Decision saved successfully.", ToastAndroid.SHORT);
+		} catch (err) {
+			ToastAndroid.show(
+				err?.response?.data?.error || err?.message || "Error",
+				ToastAndroid.SHORT
+			);
+		}
+		setIsLoading(false);
+	};
+
+	const deleteRequest = async () => {
+		setIsLoading(true);
+
+		try {
+			const result = await axios.delete(
+				`user/delete-request/${requestDetails.id}`
+			);
+			if (result.status !== 200) {
+				throw new Error(result);
+			}
+			RefreshRequestList();
+			setShowModal(false);
+			ToastAndroid.show("Deleted Request.", ToastAndroid.SHORT);
 		} catch (err) {
 			ToastAndroid.show(
 				err?.response?.data?.error || err?.message || "Error",
@@ -266,6 +289,20 @@ const AdminRequestFormModal = ({
 						</TouchableOpacity>
 					</View>
 				)}
+
+				<TouchableOpacity
+					style={{
+						width: "100%",
+						borderColor: COLORS.red,
+						borderWidth: 2,
+						padding: "3%",
+						alignItems: "center",
+						marginVertical: 1 * vh,
+					}}
+					onPress={deleteRequest}
+				>
+					<Text style={{ color: COLORS.red }}>Delete Request</Text>
+				</TouchableOpacity>
 			</ScrollView>
 		</View>
 	);

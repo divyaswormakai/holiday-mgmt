@@ -52,6 +52,7 @@ const AdminSupportTicketFormModal = ({
 		}
 		setIsLoading(false);
 	};
+
 	return (
 		<View style={globalStyles.modalContainer}>
 			<View style={{ flexDirection: "row", alignItems: "center" }}>

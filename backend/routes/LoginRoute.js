@@ -116,8 +116,9 @@ router.post('/user', loginAuth, async (req, res) => {
 router.post('/new-user', upload.any(), async (req, res) => {
 	try {
 		const profilePicture = req.files.length > 0 ? req.files[0].path : null;
-		const { username, password, email, fullName } = req.body;
-
+		let { username, password, email, fullName } = req.body;
+		email = email.toLowerCase();
+		username = username.toLowerCase();
 		if (password.length < 6) {
 			throw new Error('Password length should not be le');
 		}

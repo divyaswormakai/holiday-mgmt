@@ -60,6 +60,11 @@ const AdminRequests = () => {
 		);
 	};
 
+	const RefreshRequestList = () => {
+		GetRequestList();
+		setShowStatus("PENDING");
+	};
+
 	return (
 		<View style={globalStyles.modalContainer}>
 			<Modal
@@ -73,6 +78,7 @@ const AdminRequests = () => {
 					setShowModal={setShowModal}
 					requestDetails={selectedRequest}
 					UpdateRequestList={UpdateRequestList}
+					RefreshRequestList={RefreshRequestList}
 				/>
 			</Modal>
 			<Text style={globalStyles.adminTitleText}>Holiday Requests</Text>

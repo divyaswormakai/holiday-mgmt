@@ -38,7 +38,6 @@ const Register = ({ navigation }) => {
 			quality: 1,
 		});
 
-
 		if (!result.cancelled) {
 			setImage(result.uri);
 		}
@@ -84,10 +83,22 @@ const Register = ({ navigation }) => {
 			}
 			navigation.navigate("Login");
 		} catch (err) {
-			ToastAndroid.show(
-				err?.response?.data?.error || err?.message || "Error",
-				ToastAndroid.SHORT
-			);
+			if (err?.response?.data?.error.includes("username")) {
+				ToastAndroid.show(
+					"Username taken already. Try with a unique username.",
+					ToastAndroid.SHORT
+				);
+			} else if (err?.response?.data?.error.includes("email")) {
+				ToastAndroid.show(
+					"Email taken already. Try with a unique email.",
+					ToastAndroid.SHORT
+				);
+			} else {
+				ToastAndroid.show(
+					err?.response?.data?.error || err?.message || "Error",
+					ToastAndroid.SHORT
+				);
+			}
 		}
 		setIsLoading(false);
 	};

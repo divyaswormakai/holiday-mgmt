@@ -9,6 +9,7 @@ export const USER_TYPES = {
 };
 
 export const BASEURL = "https://holiday-mgmt.herokuapp.com/api/";
+// export const BASEURL = "https://d07735abdd36.ngrok.io /api/";
 
 export const STORAGE_USER_DETAILS_KEY = "userDetails";
 

@@ -33,7 +33,7 @@ const UserSchema = new Schema({
 	totalHolidays: {
 		type: Number,
 		required: true,
-		default: 10,
+		default: 0,
 	},
 	completedHolidays: {
 		type: Number,

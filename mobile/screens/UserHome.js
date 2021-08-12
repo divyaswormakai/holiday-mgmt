@@ -54,6 +54,7 @@ const UserHome = ({ navigation }) => {
 					<UserRequestForm
 						setShowModal={setShowModal}
 						profileDetails={profileDetails}
+						setCurrentScreen={setCurrentScreen}
 					/>
 				</Modal>
 				<StatusBar />

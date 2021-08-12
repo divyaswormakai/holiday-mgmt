@@ -89,7 +89,7 @@ const UserServiceTicketModal = ({ setShowServiceModal, profileDetails }) => {
 				activeOpacity={0.5}
 				onPress={() => setShowAddRequestModal((prev) => !prev)}
 			>
-				<Text style={globalStyles.activeBtnTxt}>OPEN AN TICKET</Text>
+				<Text style={globalStyles.activeBtnTxt}>OPEN A TICKET</Text>
 			</TouchableOpacity>
 			<View style={{ paddingBottom: 25 * vh }}>
 				<FlatList

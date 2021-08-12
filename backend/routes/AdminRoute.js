@@ -127,8 +127,8 @@ router.post('/action-request/:reqID', async (req, res) => {
 				// Else deduct the holiday from the user
 				default: {
 					await User.findByIdAndUpdate(request.employee.id, {
-						totalHolidays:
-							request.employee.totalHolidays - request.totalWorkingDays,
+						// totalHolidays:
+						// 	request.employee.totalHolidays - request.totalWorkingDays,
 						completedHolidays:
 							request.employee.completedHolidays + request.totalWorkingDays,
 					});
@@ -151,8 +151,8 @@ router.post('/action-request/:reqID', async (req, res) => {
 				// Revert the deducted holidays
 				case DECISIONS.ACCEPTED: {
 					await User.findByIdAndUpdate(request.employee.id, {
-						totalHolidays:
-							request.employee.totalHolidays + request.totalWorkingDays,
+						// totalHolidays:
+						// 	request.employee.totalHolidays + request.totalWorkingDays,
 						completedHolidays:
 							request.employee.completedHolidays - request.totalWorkingDays,
 					});

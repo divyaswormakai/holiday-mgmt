@@ -8,7 +8,12 @@ import axios from '../../utils/axios';
 import { COLORS } from '../../utils/constant';
 import { vh, vw } from '../../utils/viewport';
 
-const UserRequestForm = ({ setShowModal, profileDetails, ...props }) => {
+const UserRequestForm = ({
+	setShowModal,
+	setCurrentScreen,
+	profileDetails,
+	...props
+}) => {
 	const [year, setYear] = useState(moment().format("YYYY"));
 	const [department, setDepartment] = useState("");
 	const [totalDays, setTotalDays] = useState("");
@@ -70,6 +75,7 @@ const UserRequestForm = ({ setShowModal, profileDetails, ...props }) => {
 				"Successfully created your holiday request. You can see the status in your history.",
 				ToastAndroid.LONG
 			);
+			setCurrentScreen("Dashboard");
 			setShowModal(false);
 		} catch (err) {
 			ToastAndroid.show(
@@ -77,6 +83,7 @@ const UserRequestForm = ({ setShowModal, profileDetails, ...props }) => {
 				ToastAndroid.SHORT
 			);
 		}
+
 		setIsLoading(false);
 	};
 

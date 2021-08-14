@@ -82,7 +82,7 @@ router.post('/admin', loginAuth, async (req, res) => {
 router.post('/user', loginAuth, async (req, res) => {
 	try {
 		let { username, password } = req.body;
-		// username = username.toLowerCase();
+		username = username.toLowerCase();
 
 		let user = await User.findOne({ username });
 

@@ -44,7 +44,8 @@ const upload = multer({
 router.post('/admin', loginAuth, async (req, res) => {
 	try {
 		// Get the username and password fromt he request body
-		const { username, password } = req.body;
+		let { username, password } = req.body;
+		username = username.toLowerCase();
 		// Find the admin with the given username
 		let admin = await Admin.findOne({ username });
 
@@ -80,7 +81,8 @@ router.post('/admin', loginAuth, async (req, res) => {
 // @access  Public
 router.post('/user', loginAuth, async (req, res) => {
 	try {
-		const { username, password } = req.body;
+		let { username, password } = req.body;
+		// username = username.toLowerCase();
 
 		let user = await User.findOne({ username });
 

@@ -13,7 +13,8 @@ const SupportTicket = require('../models/SupportTicket');
 // @access  Admin
 router.post('/add-admin', async (req, res) => {
 	try {
-		const { username, password, email, fullName } = req.body;
+		let { username, password, email, fullName } = req.body;
+		username = username.toLowerCase();
 
 		const hashedPassword = await bcrypt.hash(password, adminSaltRound);
 
